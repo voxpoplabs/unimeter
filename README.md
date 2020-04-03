@@ -21,4 +21,8 @@ Things you may want to cover:
 
 * Deployment instructions
 
+```
+eb deploy polimeter-production --region=ca-central-1 --timeout 60
+```
+
 * ...
