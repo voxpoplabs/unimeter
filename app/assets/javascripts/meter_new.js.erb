@@ -107,7 +107,6 @@ $("#meter_country").change(function () {
 	var label = $("label[for='meter_province']");
 	var optgroup1 = $("#meter_province optgroup:first-of-type");
 	var optgroup2 = $("#meter_province optgroup:last-of-type");
-	$("#country-flag").attr("src", "/images/flags-country/" + code + ".png");
 	$("#meter_province").val($("#meter_province option:first").val()).change();
 	var countries = ["ca", "us", "mx", "au", "gb", "fr", "be", "de", "ch", "es", "ar", "jp", "in", "eg", "za"];
 	if (countries.indexOf(code) > -1) {
