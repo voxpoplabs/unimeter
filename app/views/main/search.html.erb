@@ -7,10 +7,10 @@
 			<label for="search-meters-input"><i class="fa fa-search"></i></label>
 			<%= form.button "Search" %>
 		<% end %>
-		
+
 		<h1>Search results</h1>
 		<em class="block"><%= pluralize(@meters.count, "result") %> for "<%= params[:q] %>"</em>
-		
+
 		<div>
 			<% @meters.each do |meter| %>
 				<div class="result">
@@ -19,10 +19,10 @@
 					</ul>
 					<div>
 						<% if meter.country.present? %>
-							<span><%= image_tag("/images/flags-country/" + meter.country.partition("[").last.sub("]", "") + ".png", class: "flag") %> <%= meter.country.partition("[")[0] %></span>
+							<span><%= image_tag("flags-country/" + meter.country.partition("[").last.sub("]", "") + ".png", class: "flag") %> <%= meter.country.partition("[")[0] %></span>
 						<% end %>
 						<% if meter.province.present? %>
-							<span><%= image_tag("/images/flags-province/" + meter.province.partition("[").last.sub("]", "") + ".png", class: "flag") %> <%= meter.province.partition("[")[0] %></span>
+							<span><%= image_tag("flags-province/" + meter.province.partition("[").last.sub("]", "") + ".png", class: "flag") %> <%= meter.province.partition("[")[0] %></span>
 						<% end %>
 						<span><%= meter.individual_name %></span>
 						<i class="block te"><%= sanitize(meter.description, tags:[]) %></i>
