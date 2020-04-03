@@ -45,7 +45,7 @@
 							</tr>
 							<tr>
 								<td>Country</td>
-								<td class="text-ellipsis"><%= image_tag("/images/flags-country/" + @meter.country.partition("[").last.sub("]", "") + ".png", class: "flag") if @meter.country %>
+								<td class="text-ellipsis"><%= image_tag("flags-country/" + @meter.country.partition("[").last.sub("]", "") + ".png", class: "flag") if @meter.country %>
 								<span class="inline-block"><%= @meter.country.partition("[")[0] %></span></td>
 							</tr>
 							<tr>
