@@ -22,7 +22,7 @@
 				<div id="map" style="height:45rem"></div>
 			</div>
 			<div class="column rel">
-				
+
 				<% countries = [
 					["AL", "Albania", 1],
 					["AR", "Argentina", 1],
@@ -41,7 +41,7 @@
 					["MG", "Madagascar", 1],
 					["MY", "Malaysia", 11],
 					["MV", "Maldives", 1],
-					["MX", "Mexico", 1],	
+					["MX", "Mexico", 1],
 					["NP", "Nepal", 1],
 					["PK", "Pakistan", 3],
 					["SG", "Singapore", 1],
@@ -51,7 +51,7 @@
 					["US", "United States", 4],
 					["ZW", "Zimbabwe", 3]
 				] %>
-				
+
 				<table id="countries-header" class="table">
 					<thead>
 						<tr>
@@ -62,7 +62,7 @@
 					</thead>
 					<tbody class="hide"></tbody>
 				</table>
-				
+
 				<table id="countries-body" class="table table-hover">
 					<thead>
 						<tr>
@@ -77,7 +77,9 @@
 								<td class="hide"><%= country[0] %></td>
 								<td>
 									<a href="/search?q=[<%= country[0] %>]">
-										<span><img class="flag" src="/images/flags-country/<%= country[0].downcase %>.png"></span>
+										<span>
+											<%= image_tag "flags-country/#{ country[0].downcase }.png", class: "flag" %>
+										</span>
 										<span class="te"><%= country[1] %></span>
 									</a>
 								</td>

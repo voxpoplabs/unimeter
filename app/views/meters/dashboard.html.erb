@@ -21,7 +21,7 @@
 					<div class="meter">
 						<div class="flag-container">
 							<% if meter.province.present? %>
-								<img src="/images/flags-province/<%= meter.province.partition("[").last.sub("]", "") %>.png" class="flag">
+								<%= image_tag "flags-province/#{ meter.province.partition("[").last.sub("]", "") }.png", class: "flag" %>
 							<% end %>
 							<%= image_tag("/images/flags-country/" + meter.country.partition("[").last.sub("]", "") + ".png", class: "flag") if meter.country %>
 							<span class="block"><%= meter.province.partition("[")[0] + ", " unless meter.province.blank? %><%= meter.country.partition("[")[0] %></span>

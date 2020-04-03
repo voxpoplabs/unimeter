@@ -2,30 +2,56 @@
 	<% if @meter && @meter.subdomain === "trudeaumetre" %>
 		<div class="flags">
 			<div class="container">
-				<a href="https://en.wikipedia.org/wiki/Yukon" target="_blank"><img src="/images/flags-province/ca-yt.png"></a>
-				<a href="https://en.wikipedia.org/wiki/Northwest_Territories" target="_blank"><img src="/images/flags-province/ca-nt.png"></a>
-				<a href="https://en.wikipedia.org/wiki/Nunavut" target="_blank"><img src="/images/flags-province/ca-nu.png"></a>
+				<a href="https://en.wikipedia.org/wiki/Yukon" target="_blank">
+					<%= image_tag "flags-province/ca-yt.png" %>
+				</a>
+				<a href="https://en.wikipedia.org/wiki/Northwest_Territories" target="_blank">
+					<%= image_tag "flags-province/ca-nt.png" %>
+				</a>
+				<a href="https://en.wikipedia.org/wiki/Nunavut" target="_blank">
+					<%= image_tag "flags-province/ca-nu.png" %>
+				</a>
 			</div>
 			<div class="container">
-				<a href="https://en.wikipedia.org/wiki/British_Columbia" target="_blank"><img src="/images/flags-province/ca-bc.png"></a>
-				<a href="https://en.wikipedia.org/wiki/Alberta" target="_blank"><img src="/images/flags-province/ca-ab.png"></a>
-				<a href="https://en.wikipedia.org/wiki/Saskatchewan" target="_blank"><img src="/images/flags-province/ca-sk.png"></a>
-				<a href="https://en.wikipedia.org/wiki/Manitoba" target="_blank"><img src="/images/flags-province/ca-mb.png"></a>
-				<a href="https://en.wikipedia.org/wiki/Ontario" target="_blank"><img src="/images/flags-province/ca-on.png"></a>
-				<a href="https://en.wikipedia.org/wiki/Quebec" target="_blank"><img src="/images/flags-province/ca-qc.png"></a>
-				<a href="https://en.wikipedia.org/wiki/New_Brunswick" target="_blank"><img src="/images/flags-province/ca-nb.png"></a>
-				<a href="https://en.wikipedia.org/wiki/Nova_Scotia" target="_blank"><img src="/images/flags-province/ca-ns.png"></a>
-				<a href="https://en.wikipedia.org/wiki/Prince_Edward_Island" target="_blank"><img src="/images/flags-province/ca-pe.png"></a>
-				<a href="https://en.wikipedia.org/wiki/Newfoundland_and_Labrador" target="_blank"><img src="/images/flags-province/ca-nl.png"></a>
+				<a href="https://en.wikipedia.org/wiki/British_Columbia" target="_blank">
+					<%= image_tag "flags-province/ca-bc.png" %>
+				</a>
+				<a href="https://en.wikipedia.org/wiki/Alberta" target="_blank">
+					<%= image_tag "flags-province/ca-ab.png" %>
+				</a>
+				<a href="https://en.wikipedia.org/wiki/Saskatchewan" target="_blank">
+					<%= image_tag "flags-province/ca-sk.png" %>
+				</a>
+				<a href="https://en.wikipedia.org/wiki/Manitoba" target="_blank">
+					<%= image_tag "flags-province/ca-mb.png" %>
+				</a>
+				<a href="https://en.wikipedia.org/wiki/Ontario" target="_blank">
+					<%= image_tag "flags-province/ca-on.png" %>
+				</a>
+				<a href="https://en.wikipedia.org/wiki/Quebec" target="_blank">
+					<%= image_tag "flags-province/ca-qc.png" %>
+				</a>
+				<a href="https://en.wikipedia.org/wiki/New_Brunswick" target="_blank">
+					<%= image_tag "flags-province/ca-nb.png" %>
+				</a>
+				<a href="https://en.wikipedia.org/wiki/Nova_Scotia" target="_blank">
+					<%= image_tag "flags-province/ca-ns.png" %>
+				</a>
+				<a href="https://en.wikipedia.org/wiki/Prince_Edward_Island" target="_blank">
+					<%= image_tag "flags-province/ca-pe.png" %>
+				</a>
+				<a href="https://en.wikipedia.org/wiki/Newfoundland_and_Labrador" target="_blank">
+					<%= image_tag "flags-province/ca-nl.png" %>
+				</a>
 			</div>
 		</div>
 	<% end %>
 	<div class="sitemap">
 		<div class="container">
-			<%= link_to "About Polimeter", aboutpolimeter_url(:subdomain => "www"), target: "_blank" %> | 
-			<%= link_to "Contact Polimeter", contact_url(:subdomain => "www"), target: "_blank" %> | 
-			<%= link_to "Support Polimeter", support_url(:subdomain => "www"), target: "_blank" %> | 
-			<%= link_to "Terms", terms_url(:subdomain => "www"), target: "_blank" %> | 
+			<%= link_to "About Polimeter", aboutpolimeter_url(:subdomain => "www"), target: "_blank" %> |
+			<%= link_to "Contact Polimeter", contact_url(:subdomain => "www"), target: "_blank" %> |
+			<%= link_to "Support Polimeter", support_url(:subdomain => "www"), target: "_blank" %> |
+			<%= link_to "Terms", terms_url(:subdomain => "www"), target: "_blank" %> |
 			<%= link_to "Privacy", privacy_url(:subdomain => "www"), target: "_blank" %>
 		</div>
 	</div>

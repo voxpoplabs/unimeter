@@ -8,7 +8,7 @@
 			<% elsif @meter.subdomain === "trudeaumetre" %>
 				<%= image_tag("trudeaumeter.png") %>
 			<% elsif !@meter.image_logo.blank? %>
-				<img src="<%= @meter.image_logo %>">
+				<%= image_tag @meter.image_logo %>
 			<% else %>
 				<h1 id="meter-name" class="te" title="<%= @meter.name %>"><%= @meter.name %></h1>
 			<% end %>
@@ -26,7 +26,7 @@
 				<%= link_to @meter.text_analytics.present? ? @meter.text_analytics : "Statistics", analytics_path %>
 				<%= link_to "Updates", updates_path %>
 			<% end %>
-			
+
 			<% if @meter.facebook_key.present? %>
 				<a href="<%= @meter.facebook_key.index("https://www.facebook.com/") ? @meter.facebook_key : "https://www.facebook.com/" + @meter.facebook_key %>" target="_blank">
 					<i class="fa fa-facebook fa-fw"></i>
@@ -50,7 +50,7 @@
 					<%= link_to "English", "/" if @bilingual %>
 					<%= link_to @meter.b_language, "/b" if !@bilingual %>
 				<% end %>
-			
+
 			<% end %>
 
 			<% if logged_in? %>
