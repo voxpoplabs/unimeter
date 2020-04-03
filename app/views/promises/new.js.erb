@@ -1,0 +1,17 @@
+$("#modal-content").html("<%= j render('promise_form') %>");
+
+$(".modal-title").html("New promise");
+
+$(".modal .datepicker-input").datepicker({
+	format: "M dd, yyyy",
+	autoclose: true,
+	maxViewMode: 2,
+	todayHighlight: true
+});
+
+// Automatically change bilingual category in promise form
+$(".modal").on("change", "#promise_category", function () {
+	$("#b_category_autoselection").val($(this).val());
+});
+
+$(document).trigger("open-modal");

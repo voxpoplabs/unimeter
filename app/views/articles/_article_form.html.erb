@@ -1,0 +1,133 @@
+<% object = "article" %>
+<% view = request.path.split("/")[-1].capitalize %>
+<% action = view === "New" ? "Create" : "Update" %>
+
+<% status_options = [] %>
+<% [@meter.status1, @meter.status2, @meter.status3, @meter.status4].each_with_index do |i, index| %>
+	<% status_options.push([i, (index + 1)]) unless i.blank? %>
+<% end %>
+
+<%= form_for [@promise, @article], remote: true do |f| %>
+	<%= render "shared/error_messages", object: f.object %>
+
+	<div class="modal-body">
+		
+		<div class="form-group">
+			<label class="form-label">Promise</label>
+			<p><%= @promise.description %></p>
+		</div>
+
+		<div class="form-group">
+			<%= f.label :article_status, "Status (the promise status will be updated to match the most recent article)", class: "form-label" %>
+			<% if @article.new_record? %>
+				<%= f.select(:article_status, options_for_select(status_options, :selected => f.object.article_status), {:prompt => "-Please select a status-"}, {:required => true, :class => "form-select"}) %>
+			<% else %>
+				<p class="article-status"><%= status_options[(@article.article_status - 1)][0] %></p>
+			<% end %>
+		</div>
+
+		<div class="columns">
+			<div class="form-group column col-sm-12">  
+				<%= f.label :title, "Title", class: "form-label" %>
+				<%= f.text_field :title, required: true, class: "form-input focus" %>
+			</div>
+
+			<div class="form-group column col-sm-12">
+				<%= f.label :date, "Date", class: "form-label", data: {addon: "&#xf073;".html_safe} %>
+				<%= f.text_field :date, required: true, autocomplete: "off", class: "form-input date", value: @article.date.try(:strftime, "%b %d, %Y") %>
+			</div>
+		</div>
+
+		<div class="columns">
+			<div class="form-group column col-sm-12">
+				<%= f.label :link_url, "Source URL", class: "form-label" %>
+				<%= f.text_field :link_url, class: "form-input" %>
+			</div>
+
+			<div class="form-group column col-sm-12">
+				<%= f.label :link_name, "Source name", class: "form-label" %>
+				<%= f.text_field :link_name, class: "form-input" %>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<%= f.label :paragraph1, "Paragraph 1", class: "form-label optional" %>
+			<%= f.text_area :paragraph1, rows: 1, class: "form-input autosize" %>
+		</div>
+
+		<div class="form-group">
+			<%= f.label :paragraph2, "Paragraph 2", class: "form-label optional" %>
+			<%= f.text_area :paragraph2, rows: 1, class: "form-input autosize" %>
+		</div>
+
+		<div class="form-group">
+			<%= f.label :paragraph3, "Paragraph 3", class: "form-label optional" %>
+			<%= f.text_area :paragraph3, rows: 1, class: "form-input autosize" %>
+		</div>
+
+		<div class="form-group">
+			<%= f.label :note, "Note", class: "form-label optional" %>
+			<%= f.text_area :note, rows: 1, class: "form-input autosize" %>
+		</div>
+
+		<% if @meter.bilingual %>
+			<div class="form-subtitle section-title"><%= @meter.b_language %></div>
+		
+			<div class="form-group">
+				<label class="form-label">Promise</label>
+				<p><%= @promise.description_b %></p>
+			</div>
+
+			<div class="columns">
+				<div class="form-group column col-sm-12">
+					<%= f.label :title_b, "Title", class: "form-label" %>
+					<%= f.text_field :title_b, required: true, class: "form-input" %>
+				</div>
+
+				<div class="form-group column col-sm-12">
+					<%= f.label :date_b, "Date", class: "form-label", :data => {:addon => "&#xf073;".html_safe} %>
+					<%= f.text_field :date_b, required: true, autocomplete: "off", class: "form-input date", value: @article.date_b.try(:strftime, "%b %d, %Y") %>
+				</div>
+			</div>
+
+			<div class="columns">
+				<div class="form-group column col-sm-12">
+					<%= f.label :link_url_b, "Source URL", class: "form-label" %>
+					<%= f.text_field :link_url_b, class: "form-input" %>
+				</div>
+
+				<div class="form-group column col-sm-12">
+					<%= f.label :link_name_b, "Source name", class: "form-label" %>
+					<%= f.text_field :link_name_b, class: "form-input" %>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<%= f.label :paragraph1_b, "Paragraph 1", class: "form-label optional" %>
+				<%= f.text_area :paragraph1_b, rows: 1, class: "form-input autosize" %>
+			</div>
+
+			<div class="form-group">
+				<%= f.label :paragaph2_b, "Paragraph 2", class: "form-label optional" %>
+				<%= f.text_area :paragraph2_b, rows: 1, class: "form-input autosize" %>
+			</div>
+
+			<div class="form-group">
+				<%= f.label :paragraph3_b, "Paragraph 3", class: "form-label optional" %>
+				<%= f.text_area :paragraph3_b, rows: 1, class: "form-input autosize" %>
+			</div>
+
+			<div class="form-group">
+				<%= f.label :note_b, "Note", class: "form-label optional" %>
+				<%= f.text_area :note_b, rows: 1, class: "form-input autosize" %>
+			</div>
+
+		<% end %>
+
+	</div>
+
+	<div class="modal-footer">
+		<a class="btn close-modal">Cancel</a>
+		<%= f.button action + " " + object, class: "btn btn-primary" %>
+	</div>
+<% end %>

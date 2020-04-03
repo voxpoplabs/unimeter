@@ -1,0 +1,22 @@
+<% status_icons = getStatusIcons(@meter, @bilingual) %>
+<% statuses = getStatuses(@meter, @bilingual) %>
+
+<tr class="pr category<%= promise.category %> status<%= promise.status %>">
+	<td class="pr-status">
+		<i class="fa <%= status_icons[promise.status] %> fa-fw" title="<%= statuses[promise.status] %>"></i>
+	</td>
+	<td class="hide"><%= statuses[promise.status] %></td>
+	<td class="hide sub category<%= promise.category %>" data-category="<%= promise.category %>"><%= @bilingual ? promise.subcategory_b : promise.subcategory %></td>
+
+	<td class="pr-description">
+		<% if @bilingual %>
+			<%= link_to promise.description_b || "blank", bilingual_promise_path(promise) %>
+		<% else %>
+			<%= link_to promise.description, promise %>
+		<% end %>
+	</td>
+
+	<td class="pr-comments">
+		<%= link_to "Start the discussion!", promise, "data-disqus-identifier" => promise.meter.subdomain === "trudeaumetre" ? promise.id.to_s : "polimeter_" + promise.meter.id.to_s + "_" + promise.id.to_s %>
+	</td>
+</tr>

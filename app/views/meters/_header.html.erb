@@ -1,0 +1,61 @@
+<header>
+	<div class="container">
+		<i class="fa fa-bars fa-2x show-lg" onclick="$('nav').slideToggle()"></i>
+
+		<a href="<%= @bilingual ? "/b" : "/" %>" id="logo">
+			<% if @meter.subdomain === "trudeaumetre" && @bilingual %>
+				<%= image_tag("trudeaumetre.png") %>
+			<% elsif @meter.subdomain === "trudeaumetre" %>
+				<%= image_tag("trudeaumeter.png") %>
+			<% elsif !@meter.image_logo.blank? %>
+				<img src="<%= @meter.image_logo %>">
+			<% else %>
+				<h1 id="meter-name" class="te" title="<%= @meter.name %>"><%= @meter.name %></h1>
+			<% end %>
+		</a>
+		<nav>
+			<% if @bilingual %>
+				<%= link_to @meter.b_text_about.present? ? @meter.b_text_about : "About", b_about_path %>
+				<%= link_to @meter.b_text_blog.present? ? @meter.b_text_blog : "News", news_path %>
+				<%= link_to @meter.b_text_rules.present? ? @meter.b_text_rules : "House Rules", b_rules_path %>
+				<%= link_to @meter.b_text_analytics.present? ? @meter.b_text_analytics : "Statistics", analytics_path %>
+			<% else %>
+				<%= link_to @meter.text_about.present? ? @meter.text_about : "About", about_path %>
+				<%= link_to @meter.text_blog.present? ? @meter.text_blog : "News", news_path %>
+				<%= link_to @meter.text_rules.present? ? @meter.text_rules : "House Rules", rules_path %>
+				<%= link_to @meter.text_analytics.present? ? @meter.text_analytics : "Statistics", analytics_path %>
+				<%= link_to "Updates", updates_path %>
+			<% end %>
+			
+			<% if @meter.facebook_key.present? %>
+				<a href="<%= @meter.facebook_key.index("https://www.facebook.com/") ? @meter.facebook_key : "https://www.facebook.com/" + @meter.facebook_key %>" target="_blank">
+					<i class="fa fa-facebook fa-fw"></i>
+				</a>
+			<% end %>
+			<% if @meter.twitter_key.present? %>
+				<a href="https://twitter.com/<%= @meter.twitter_key.sub("@", "") %>" target="_blank">
+					<i class="fa fa-twitter fa-fw"></i>
+				</a>
+			<% end %>
+			<% if @meter.patreon_key.present? %>
+				<a href="<%= @meter.patreon_key.index("https://www.patreon.com/") ? @meter.patreon_key : "https://www.patreon.com/" + @meter.patreon_key %>" target="_blank">
+					<%= image_tag("patreon-orange.png", style: "margin-bottom:-.1rem;width:1.1rem") %>
+				</a>
+			<% end %>
+			<% if @meter.bilingual %>
+				<% if action_name === "show" && controller_name === "promises" %>
+					<%= link_to "English", "/promise/" + @promise.id.to_s if @bilingual %>
+					<%= link_to @meter.b_language, "/b/promise/" + @promise.id.to_s if !@bilingual %>
+				<% else %>
+					<%= link_to "English", "/" if @bilingual %>
+					<%= link_to @meter.b_language, "/b" if !@bilingual %>
+				<% end %>
+			
+			<% end %>
+
+			<% if logged_in? %>
+				<%= render "shared/user_menu" %>
+			<% end %>
+		</nav>
+	</div>
+</header>

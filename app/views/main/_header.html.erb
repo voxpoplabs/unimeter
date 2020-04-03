@@ -1,0 +1,13 @@
+<header class="fixed<%=" landing" if action_name === "home" %>">
+	<div class="container">
+		<%= link_to image_tag("logo-black.png", style: "padding:1.5em 0"), root_url, id: "logo" %>
+		<nav class="float-right">
+			<% if logged_in? %>
+				<%= render "shared/user_menu" %>
+			<% else %>
+				<%= link_to "SIGN UP", signup_path, class: "landing-actions" %>
+				<%= link_to "LOG IN", login_path, class: "landing-actions" %>
+			<% end %>
+		</nav>
+	</div>
+</header>

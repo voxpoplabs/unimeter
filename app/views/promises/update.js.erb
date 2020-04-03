@@ -1,0 +1,47 @@
+<% status_icons = ["", "fa-hourglass-start", "fa-cogs", "fa-check-circle-o", "fa-ban"] %>
+<% category_icons = ["", @promise.meter.icon_category1, @promise.meter.icon_category2, @promise.meter.icon_category3, @promise.meter.icon_category4, @promise.meter.icon_category5, @promise.meter.icon_category6, @promise.meter.icon_category7] %>
+
+<% categories = ["", @promise.meter.category1, @promise.meter.category2, @promise.meter.category3, @promise.meter.category4, @promise.meter.category5, @promise.meter.category6, @promise.meter.category7] %>
+<% statuses = ["", @meter.status1, @meter.status2, @meter.status3, @meter.status4] %>
+
+<% description = @promise.description %>
+<% subcategory = @promise.subcategory %>
+
+<% source_date = @promise.source_date %>
+<% source_link_name = @promise.source_link_name %>
+<% source_link_url = @promise.source_link_url %>
+<% source_section = @promise.source_section %>
+
+//if ($("a.toEN").length > 0) {
+	<%# categories = ["", @promise.meter.b_category1, @promise.meter.b_category2, @promise.meter.b_category3, @promise.meter.b_category4, @promise.meter.b_category5, @promise.meter.b_category6, @promise.meter.b_category7] %>
+	<%# statuses = ["", @meter.b_status1, @meter.b_status2, @meter.b_status3, @meter.b_status4] %>
+
+	<%# description = @promise.description_b %>
+	<%# subcategory = @promise.subcategory_b %>
+
+	<%# source_date = @promise.source_date_b %>
+	<%# source_link_name = @promise.source_link_name_b %>
+	<%# source_link_url = @promise.source_link_url_b %>
+	<%# source_section = @promise.source_section_b %>
+//}
+
+$("#promise-category").html(
+	"<i class='fa fa-<%= category_icons[@promise.category] %> fa-fw'></i> \
+	<span><%= categories[@promise.category] %></span> \
+	<span><%= subcategory.mb_chars.upcase unless subcategory.blank? %></span>"
+);
+
+$("#promise-description").html("<h1><%= description %></h1>");
+
+$("#promise-source").html(
+	"<span><a href='<%= source_link_url %>' target='_blank'><%= source_link_name %></a></span> \
+	<span><%= source_section unless source_section.blank? %></span> \
+	<span><%= source_date.try(:strftime, '%B %e, %Y') unless source_date.blank? %></span>"
+);
+	
+//$("#promise-status").removeClass().addClass("status<%= @promise.status %>").html(
+//	"<i class='fa <%= status_icons[@promise.status] %>'></i> \
+//	<span><%= statuses[@promise.status] %></span>"
+//);
+
+$(document).trigger("close-modal");

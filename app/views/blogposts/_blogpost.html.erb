@@ -1,0 +1,19 @@
+<% status_icons = ["", "fa-hourglass-start", "fa-cogs", "fa-check", "fa-ban"] %>
+<% statuses = ["", @meter.status1, @meter.status2, @meter.status3, @meter.status4] %>
+
+<div id="blogpost_<%= blogpost.id %>" class="blogpost">
+	<% if correct_user?(@meter) %>
+		<div class="btn-group">
+			<%= link_to "Edit this blog post", edit_meter_blogpost_path(@meter, blogpost), remote: true, class: "edit btn btn-sm" %>
+			<%= link_to "<i class='fa fa-trash-o'></i>".html_safe, meter_blogpost_path(@meter, blogpost), remote: true, method: :delete, class: "btn btn-sm", data: {confirm: "Are you sure you want to delete this blog post? There's no going back!"} %>
+		</div>
+	<% end %>
+
+	<h3 style="margin:0"><%= blogpost.title %></h3>
+	<span class="block" style="color:#888;margin:.25rem 0 1.4rem"><%= date(blogpost.created_at) %></span>
+	<div class="content"><%= sanitize blogpost.content
+	.gsub("[status1]", "<span class='status1'><i class='fa " + status_icons[1] + "'></i> " + statuses[1] + "</span>")
+	.gsub("[status2]", "<span class='status2'><i class='fa " + status_icons[2] + "'></i> " + statuses[2] + "</span>")
+	.gsub("[status3]", "<span class='status3'><i class='fa " + status_icons[3] + "'></i> " + statuses[3] + "</span>")
+	.gsub("[status4]", "<span class='status4'><i class='fa " + status_icons[4] + "'></i> " + statuses[4] + "</span>"), tags: %w(a b br em i p span strong ul ol li), attributes: %w(href target class) unless blogpost.content.blank? %></div>
+</div>

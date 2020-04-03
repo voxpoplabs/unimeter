@@ -1,0 +1,24 @@
+<% status_icons = getStatusIcons(@meter, @bilingual) %>
+
+<% (1..7).each do |i| %>
+
+	<tr class="np category<%= i %>">
+		<td></td>
+		<td class="hide"></td>
+		<td class="hide"></td>
+		<td class="np-category" colspan="2">
+			<div class="columns">
+				<% (1..4).each do |j| %>
+					<div class="column status<%= j %>">
+						<i class="fa <%= status_icons[j] %> fa-fw"></i>
+						<span><%= @promises.where(:status => j, :category => i).count %></span>
+						<div class="bar" style="width:10rem">
+							<div class="bar-item status<%= j %>" style="width:<%= @promises.where(:status => j, :category => i).count.to_f * 100 / @promises.where(:category => i).count %>%"></div>
+						</div>
+					</div>
+				<% end %>
+			</div>
+		</td>
+	</tr>
+
+<% end %>

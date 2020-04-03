@@ -1,0 +1,154 @@
+<% provide(:title, " | Analytics") %>
+
+<% categories = ["", @meter.category1, @meter.category2, @meter.category3, @meter.category4, @meter.category5, @meter.category6, @meter.category7] %>
+<% category_icons = ["", @meter.icon_category1, @meter.icon_category2, @meter.icon_category3, @meter.icon_category4, @meter.icon_category5, @meter.icon_category6, @meter.icon_category7] %>
+
+<% statuses = ["", @meter.status1, @meter.status2, @meter.status3, @meter.status4] %>
+<% status_icons = ["", "fa-hourglass-start", "fa-cogs", "fa-check-circle-o", "fa-ban"] %>		
+
+<%= render "header" %>
+
+<section id="analytics">
+    <div class ="container">
+
+		<div class="hide">
+			<% categories.each do |i| %>
+				<span class="categories"><%= i %></span>
+			<% end %>
+		</div>
+
+		<div class="hide">
+			<% statuses.each do |i| %>
+				<span class="statuses"><%= i %></span>
+			<% end %>
+		</div>
+
+		<div id="analytics-1">
+			<div class="btn-group" style="margin:4rem 0">
+				<a class="btn btn-primary active">Promises over Time</a>
+				<a class="btn btn-primary" href="#analytics-2">Promises by Category</a>
+				<a class="btn btn-primary" href="#analytics-3">Promises Table</a>
+			</div>
+
+			<div class="viewdata clearfix">
+				<input type="radio" name="tab-chart-time" id="tab-chart-time0" value="0" checked>
+				<label for="tab-chart-time0"><span>All Categories</span></label>
+
+				<% (1..7).each do |i| %>
+					<% if @promises.where(:category => i).count > 0 %>
+						<input type="radio" name="tab-chart-time" id="tab-chart-time<%= i %>" value="<%= i %>">
+						<label for="tab-chart-time<%= i %>" class="tooltip" data-tooltip="<%= categories[i] %>">
+							<i class="fa fa-<%= category_icons[i] %> fa-fw"></i>
+							<span><%= categories[i] %></span>
+						</label>
+					<% end %>
+				<% end %>
+			</div>
+
+			<div id="chart-time" style="height:400px;margin-bottom:3em"></div>
+		</div>
+
+		<div id="analytics-2">
+			<div class="btn-group" style="margin:4rem 0">
+				<a class="btn btn-primary" href="#analytics-1">Promises over Time</a>
+				<a class="btn btn-primary active">Promises by Category</a>
+				<a class="btn btn-primary" href="#analytics-3">Promises Table</a>
+			</div>
+
+			<div class="viewdata clearfix">
+				<input type="radio" name="tab-chart-category" id="tab-chart-category0" value="0" checked>
+				<label for="tab-chart-category0"><span>Latest</span></label>
+
+				<% years = Date.today.year - @meter.date_elected.year %>
+
+				<% if years > 0 %>
+					<% (1..years).each do |i| %>
+						<input type="radio" name="tab-chart-category" id="tab-chart-category<%= i %>" value="<%= i %>">
+						<label for="tab-chart-category<%= i %>"><span><%= Date.today.year - i %></span></label>
+					<% end %>
+				<% end %>
+			</div>
+
+			<div id="chart-category" style="height:400px;margin-bottom:3em"></div>
+		</div>
+
+		<div id="analytics-3">
+			<div class="btn-group" style="margin:4rem 0">
+				<a class="btn btn-primary" href="#analytics-1">Promises over Time</a>
+				<a class="btn btn-primary" href="#analytics-2">Promises by Category</a>
+				<a class="btn btn-primary active">Promises Table</a>
+			</div>
+
+			<table id="tablePromises" class="table table-striped">
+				<thead>
+					<tr>
+						<th title="Category" style="width:12rem">
+							<span>Category</span>
+						</th>
+						<th title="Subcategory" style="width:12rem">
+							<span>Subcategory</span>
+						</th>
+						<th title="Promise">
+							<span>Promise</span>
+						</th>
+						<th title="Status" style="width:12rem">
+							<span>Status</span>
+						</th>
+						<th title="As of" style="width:12rem">
+							<span>As of</span>
+						</th>
+						<th title="Number of articles" style="width:5rem">
+							<span><i class="fa fa-newspaper-o"></i></span>
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					<% @promises.each do |promise| %>
+						<tr>
+							<td><span><%= categories[promise.category] %></span></td>
+							<td><span style="text-transform:uppercase"><%= promise.subcategory %></span></td>
+							<td><%= link_to promise.description, promise, class: "status"+promise.status.to_s %></td>
+							<td class="status<%= promise.status %>">
+								<span><i class="fa <%= status_icons[promise.status] %> fa-fw"></i> <%= statuses[promise.status] %></span>
+							</td>
+							<td>
+							<% if promise.articles.count > 0 %>
+								<span style="display:none"><%= promise.articles.first.date %></span><%= promise.articles.first.date.try(:strftime, "%b %-d, %Y") %>
+							<% end %>
+							</td>
+							<td><%= promise.articles.count %></td>
+						</tr>
+					<% end %>
+				</tbody>
+			</table>
+		</div>
+
+		<table id="tableData" class="hide">
+			<thead>
+				<tr>
+					<th>Month</th>
+					<th>Total</th>
+				</tr>
+			</thead>
+			<tbody>
+				<% (0..(Time.now.year * 12 + Time.now.month - @meter.date_elected.year * 12 - @meter.date_elected.month)).each do |month| %>
+					<% month_start = @meter.date_elected.at_beginning_of_month + month.month %>
+					<% month_end = @meter.date_elected.at_beginning_of_month + (month + 1).month %>
+					<tr>
+						<td><%= month_start.strftime("%Y-%m") %></td>
+						<td><% @promises.each do |promise| %>c<%= promise.category %>s<%= promise.articles.where("date < ?", month_end).first.try(:article_status) || 1 %> <% end %></td>
+					</tr>
+				<% end %>
+			</tbody>
+		</table>
+    </div>
+</section>
+
+<%= render "footer" %>
+
+<script src="//www.amcharts.com/lib/3/amcharts.js"></script>
+<script src="//www.amcharts.com/lib/3/serial.js"></script>
+<script src="//www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
+<link rel="stylesheet" href="//www.amcharts.com/lib/3/plugins/export/export.css">
+
+<%= javascript_include_tag "meter_analytics" %>

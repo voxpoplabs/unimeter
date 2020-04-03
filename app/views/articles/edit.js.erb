@@ -1,0 +1,14 @@
+$("#modal-content").html("<%= j render('article_form') %>");
+
+$(".modal-title").html("Edit article");
+
+autosize($(".autosize"));
+
+$(".modal .date").datepicker({
+	format: "M dd, yyyy",
+	autoclose: true,
+	maxViewMode: 2,
+	todayHighlight: true
+});
+
+$(document).trigger("open-modal");

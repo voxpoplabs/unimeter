@@ -1,0 +1,22 @@
+<%= render "main/header" %>
+
+<section class="breadcrumbs">
+	<div class="container">
+		<%= link_to "Dashboard", dashboard_url(subdomain: "www"), class: "btn btn-link btn-lg" %>
+		<i class="fa fa-chevron-right fa-fw inline-block"></i>
+		<a href="/overview" class="btn btn-link btn-lg"><%= @meter.name %></a>
+		<i class="fa fa-chevron-right fa-fw inline-block"></i>
+		<a class="btn btn-link btn-lg disabled" style="color:inherit;opacity:1">Settings</a>
+		<%= link_to "Go to meter", root_url(:subdomain => @meter.subdomain), target: "_blank", class: "btn btn-primary float-right", style: "margin-top:.4rem" %>
+	</div>
+</section>
+
+<section class="dashboard">
+	<div class="container">
+		<%= render "meter_form" %>
+	</div>
+</section>
+
+<%= render "footer" %>
+
+<%= javascript_include_tag "meter_new" %>

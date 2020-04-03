@@ -1,0 +1,19 @@
+<%= render "main/header" %>
+
+<section class="breadcrumbs">
+	<div class="container">
+		<%= link_to "Dashboard", dashboard_url(:subdomain => "www"), class: "btn btn-link btn-lg" %>
+		<i class="fa fa-chevron-right fa-fw inline-block" style="opacity:.3"></i>
+		<a class="btn btn-link btn-lg disabled" style="color:inherit;opacity:1">New Meter</a>
+	</div>
+</section>
+
+<section class="dashboard">
+	<div class="container">
+		<%= render "meter_form" %>
+	</div>
+</section>
+
+<%= render "footer" %>
+
+<%= javascript_include_tag "meter_new" %>

@@ -1,0 +1,116 @@
+<%= render "header" %>
+
+<section id="hero">
+	<%= image_tag("landing-back.png") %>
+	<div class="container rel">
+		<h1>Polimeter lets you track and share the promises made by your politicians.</h1>
+		<div>
+			<%= link_to "Build your own polimeter", signup_path, class: "btn btn-primary landing-control" %>
+			<%= form_with url: search_path, local: true, method: :get, html: {id: "search-meters"} do |form| %>
+				<%= form.search_field :q, required: true, placeholder: "Search existing polimeters", id: "search-meters-input", class: "form-input landing-control" %>
+				<label for="search-meters-input"><i class="fa fa-search"></i></label>
+				<%= form.button "Search <i class='fa fa-angle-right'></i>".html_safe, class: "btn btn-primary landing-control" %>
+			<% end %>
+		</div>
+	</div>
+</section>
+
+<section id="world">
+	<div class="container">
+		<div class="columns">
+			<div class="column col-9">
+				<div id="map" style="height:45rem"></div>
+			</div>
+			<div class="column rel">
+				
+				<% countries = [
+					["AL", "Albania", 1],
+					["AR", "Argentina", 1],
+					["AM", "Armenia", 1],
+					["BS", "Bahamas", 1],
+					["BB", "Barbados", 1],
+					["BZ", "Belize", 1],
+					["BJ", "Benin", 1],
+					["CA", "Canada", 34],
+					["CR", "Croatia", 1],
+					["EG", "Egypt", 1],
+					["FR", "France", 4],
+					["IN", "India", 3],
+					["ID", "Indonesia", 4],
+					["LB", "Lebanon", 2],
+					["MG", "Madagascar", 1],
+					["MY", "Malaysia", 11],
+					["MV", "Maldives", 1],
+					["MX", "Mexico", 1],	
+					["NP", "Nepal", 1],
+					["PK", "Pakistan", 3],
+					["SG", "Singapore", 1],
+					["ZA", "South Africa", 2],
+					["SE", "Sweden", 3],
+					["GB", "United Kingdom", 2],
+					["US", "United States", 4],
+					["ZW", "Zimbabwe", 3]
+				] %>
+				
+				<table id="countries-header" class="table">
+					<thead>
+						<tr>
+							<th class="hide"></th>
+							<th>Country</th>
+							<th class="tr" style="width:10rem">Polimeters</th>
+						</tr>
+					</thead>
+					<tbody class="hide"></tbody>
+				</table>
+				
+				<table id="countries-body" class="table table-hover">
+					<thead>
+						<tr>
+							<th class="hide"></th>
+							<th>Country</th>
+							<th class="tr" style="width:10rem">Polimeters</th>
+						</tr>
+					</thead>
+					<tbody>
+						<% countries.each do |country| %>
+							<tr>
+								<td class="hide"><%= country[0] %></td>
+								<td>
+									<a href="/search?q=[<%= country[0] %>]">
+										<span><img class="flag" src="/images/flags-country/<%= country[0].downcase %>.png"></span>
+										<span class="te"><%= country[1] %></span>
+									</a>
+								</td>
+								<td class="tr" style="padding-right:1rem"><%= country[2] %></td>
+							</tr>
+						<% end %>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<i class="block tr" style="opacity:.4">Last updated on 05-Feb-2019</i>
+	</div>
+</section>
+
+<section id="features" class="tc" style="margin-bottom:2rem">
+	<div class="container">
+		<div class="columns">
+			<div class="column col-4 col-lg-12">
+				<h2>Build</h2>
+				<p>Do you know of a politician or an organization that impacts your life? Start by researching which promises he or she made to get elected. Then build your own polimeter to list all of your politician's promises.</p>
+			</div>
+			<div class="column col-4 col-lg-12">
+				<h2>Track</h2>
+				<p>Update your listed promises as they are being fulfilled (or not). Reference news article from the media or official government transcripts to create a repository of knowledge.</p>
+			</div>
+			<div class="column col-4 col-lg-12">
+				<h2>Share</h2>
+				<p>Engage in thoughtful discussions about the promises you listed and the progress being made.</p>
+			</div>
+		</div>
+	</div>
+</section>
+
+<%= render "footer" %>
+
+<%= javascript_include_tag "home" %>

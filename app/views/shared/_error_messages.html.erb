@@ -1,0 +1,11 @@
+<% if object.errors.any? %>
+	<div class="toast toast-error rel" style="margin-bottom:2rem">
+		<i class="fa fa-meh-o"></i>
+		<p>Oops! Looks like you need to fix a few things:</p>
+		<ul>
+			<% object.errors.full_messages.each do |message| %>
+				<li><%= message %></li>
+			<% end %>
+		</ul>
+	</div>
+<% end %>

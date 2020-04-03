@@ -1,0 +1,18 @@
+<% provide(:title, " | House Rules") %>
+
+<%= render "header" %>
+
+<main>
+	<section id="rules" class="post">
+		<div class ="container">
+			<h2><%= @bilingual ? (@meter.b_text_rules.present? ? @meter.b_text_rules : "House Rules") : (@meter.text_rules.present? ? @meter.text_rules : "House Rules") %></h2>
+			<div class="content">
+				<%= sanitize @bilingual ? @meter.b_rules : @meter.rules, tags: %w(a b br em i p span strong h3 ul li), attributes: %w(href target) %>
+			</div>
+		</div>
+	</section>
+
+	<%= render "footer" %>
+</main>
+
+<%= javascript_include_tag "application" %>

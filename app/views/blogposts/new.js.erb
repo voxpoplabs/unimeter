@@ -1,0 +1,7 @@
+$("#modal-content").html("<%= j render('blogpost_form') %>");
+
+$(".modal-title").html("New blog post");
+
+autosize($(".autosize"));
+
+$(document).trigger("open-modal");

@@ -1,0 +1,1057 @@
+<%= form_for @meter, html: { class: "view col-10 col-sm-12", data: { "form-data" => (@s3_direct_post.fields), "url" => @s3_direct_post.url, "host" => URI.parse(@s3_direct_post.url).host } } do |f| %>
+	<h5><%= @meter.name ? "Meter Settings" : "New Meter" %></h5>
+
+	<%= render "shared/error_messages", object: f.object %>
+
+	<div class="columns">
+		<div class="column col-3 col-sm-12">
+			<h6>General Settings</h6>
+		</div>
+
+		<div class="column col-9 col-sm-12">
+			<div class="form-group">
+				<% if @meter.persisted? %>
+					<div class="toast">Your meter is currently accessible for the world to see at:
+						<b class="text-ellipsis text-large" style="display:block"><%= link_to @meter.subdomain + ".polimeter.org", root_url(:subdomain => @meter.subdomain), target: "_blank" %></b>
+						<div id="new_subdomain" class="toast toast-danger" style="display:none;margin-top:2rem">Please note that changing your meter name may result in your previous links to be broken if the new subdomain doesn't match the old one. Your meter will now be accessible at:
+							<b class="text-ellipsis text-large" style="display:block"><span id="subdomain"><%= @meter.subdomain %></span>.polimeter.org</b>
+						</div>
+					</div>
+				<% else %>
+					<div class="toast">Your polimeter will be accessible for the world to see at:<b class="te" style="display:block"><span id="subdomain"></span>.polimeter.org</b>
+						<div class="tr">
+							<%= f.label :meter_type, "Polimeter Accessibility", class: "form-label" %>
+							<%= f.select(:meter_type, options_for_select([["Public", "public"], ["Private", "private"]], :selected => f.object.meter_type), {}, {disabled: ((current_user.has_role? :polimeter_premium) ? false : true), class: "form-select", style: "display:inline-block;width:auto"}) %>
+							<span class="premium"></span>
+						</div>
+					</div>
+
+				<% end %>
+			</div>
+
+			<div class="form-group">
+				<%= f.label :name, "Meter Name", class: "form-label" %>
+				<%= f.text_field :name, required: true, maxlength: 50, class: "form-input" %>
+				<span class="max"></span>
+			</div>
+
+			<div class="columns">
+				<div class="form-group column col-sm-12">
+					<img id="country-flag" class="flag" src="/images/flags-country/<%= @meter.country ? @meter.country.partition("[").last.sub("]", "") : "zz" %>.png">
+					<%= f.label :country, "Country", class: "form-label" %>
+					<%= f.select(:country, options_for_select([
+["Afghanistan","Afghanistan[af]"],
+["Albania","Albania[al]"],
+["Algeria","Algeria[dz]"],
+["Andorra","Andorra[ad]"],
+["Angola","Angola[ao]"],
+["Antigua and Barbuda","Antigua and Barbuda[ag]"],
+["Argentina","Argentina[ar]"],
+["Armenia","Armenia[am]"],
+["Australia","Australia[au]"],
+["Austria","Austria[at]"],
+["Azerbaijan","Azerbaijan[az]"],
+["Bahamas","Bahamas[bs]"],
+["Bahrain","Bahrain[bh]"],
+["Bangladesh","Bangladesh[bd]"],
+["Barbados","Barbados[bb]"],
+["Belarus","Belarus[by]"],
+["Belgium","Belgium[be]"],
+["Belize","Belize[bz]"],
+["Benin","Benin[bj]"],
+["Bhutan","Bhutan[bt]"],
+["Bolivia","Bolivia[bo]"],
+["Bosnia-Herzegovina","Bosnia-Herzegovina[ba]"],
+["Botswana","Botswana[bw]"],
+["Brazil","Brazil[br]"],
+["Brunei","Brunei[bn]"],
+["Bulgaria","Bulgaria[bg]"],
+["Burkina Faso","Burkina Faso[bf]"],
+["Burundi","Burundi[bi]"],
+["Cambodia","Cambodia[kh]"],
+["Cameroon","Cameroon[cm]"],
+["Canada","Canada[ca]"],
+["Cape Verde","Cape Verde[cv]"],
+["Central African Republic","Central African Republic[cf]"],
+["Chad","Chad[td]"],
+["Chile","Chile[cl]"],
+["China","China[cn]"],
+["Colombia","Colombia[co]"],
+["Comoros","Comoros[km]"],
+["Congo-Brazzaville","Congo-Brazzaville[cg]"],
+["Congo-Kinshasa","Congo-Kinshasa[cd]"],
+["Costa Rica","Costa Rica[cr]"],
+["Côte d'Ivoire","Côte d'Ivoire[ci]"],
+["Croatia","Croatia[hr]"],
+["Cuba","Cuba[cu]"],
+["Cyprus","Cyprus[cy]"],
+["Czech Republic","Czech Republic[cz]"],
+["Denmark","Denmark[dk]"],
+["Djibouti","Djibouti[dj]"],
+["Dominica","Dominica[dm]"],
+["Dominican Republic","Dominican Republic[do]"],
+["Ecuador","Ecuador[ec]"],
+["Egypt","Egypt[eg]"],
+["El Salvador","El Salvador[sv]"],
+["Equatorial Guinea","Equatorial Guinea[gq]"],
+["Eritrea","Eritrea[er]"],
+["Estonia","Estonia[ee]"],
+["Ethiopia","Ethiopia[et]"],
+["European Union","European Union[eu]"],
+["Fiji","Fiji[fj]"],
+["Finland","Finland[fi]"],
+["France","France[fr]"],
+["Gabon","Gabon[ga]"],
+["Gambia","Gambia[gm]"],
+["Georgia","Georgia[ge]"],
+["Germany","Germany[de]"],
+["Ghana","Ghana[gh]"],
+["Greece","Greece[gr]"],
+["Greenland","Greenland[gl]"],
+["Grenada","Grenada[gd]"],
+["Guatemala","Guatemala[gt]"],
+["Guinea","Guinea[gn]"],
+["Guinea-Bissau","Guinea-Bissau[gw]"],
+["Guyana","Guyana[gy]"],
+["Haiti","Haiti[ht]"],
+["Holy See","Holy See[va]"],
+["Honduras","Honduras[hn]"],
+["Hong Kong","Hong Kong[hk]"],
+["Hungary","Hungary[hu]"],
+["Iceland","Iceland[is]"],
+["India","India[in]"],
+["Indonesia","Indonesia[id]"],
+["Iran","Iran[ir]"],
+["Iraq","Iraq[iq]"],
+["Ireland","Ireland[ie]"],
+["Israel","Israel[il]"],
+["Italy","Italy[it]"],
+["Jamaica","Jamaica[jm]"],
+["Japan","Japan[jp]"],
+["Jordan","Jordan[jo]"],
+["Kazakhstan","Kazakhstan[kz]"],
+["Kenya","Kenya[ke]"],
+["Kiribati","Kiribati[ki]"],
+["Kosovo","Kosovo[ks]"],
+["Kuwait","Kuwait[kw]"],
+["Kyrgyzstan","Kyrgyzstan[kg]"],
+["Laos","Laos[la]"],
+["Latvia","Latvia[lv]"],
+["Lebanon","Lebanon[lb]"],
+["Lesotho","Lesotho[ls]"],
+["Liberia","Liberia[lr]"],
+["Libya","Libya[ly]"],
+["Liechtenstein","Liechtenstein[li]"],
+["Lithuania","Lithuania[lt]"],
+["Luxembourg","Luxembourg[lu]"],
+["Macau","Macau[mo]"],
+["Macedonia","Macedonia[mk]"],
+["Madagascar","Madagascar[mg]"],
+["Malawi","Malawi[mw]"],
+["Malaysia","Malaysia[my]"],
+["Maldives","Maldives[mv]"],
+["Mali","Mali[ml]"],
+["Malta","Malta[mt]"],
+["Marshall Islands","Marshall Islands[mh]"],
+["Mauritania","Mauritania[mr]"],
+["Mauritius","Mauritius[mu]"],
+["Mexico","Mexico[mx]"],
+["Micronesia","Micronesia[fm]"],
+["Moldova","Moldova[md]"],
+["Monaco","Monaco[mc]"],
+["Mongolia","Mongolia[mn]"],
+["Montenegro","Montenegro[me]"],
+["Morocco","Morocco[ma]"],
+["Mozambique","Mozambique[mz]"],
+["Myanmar","Myanmar[mm]"],
+["Namibia","Namibia[na]"],
+["Nauru","Nauru[nr]"],
+["Nepal","Nepa[np]"],
+["Netherlands","Netherlands[nl]"],
+["New Zealand","New Zealand[nz]"],
+["Nicaragua","Nicaragua[ni]"],
+["Niger","Niger[ne]"],
+["Nigeria","Nigeria[ng]"],
+["North Korea","North Korea[kp]"],
+["Norway","Norway[no]"],
+["Oman","Oman[om]"],
+["Pakistan","Pakistan[pk]"],
+["Palau","Palau[pw]"],
+["Panama","Panama[pa]"],
+["Papua New Guinea","Papua New Guinea[pg]"],
+["Paraguay","Paraguay[py]"],
+["Peru","Peru[pe]"],
+["Philippines","Philippines[ph]"],
+["Poland","Poland[pl]"],
+["Portugal","Portugal[pt]"],
+["Qatar","Qatar[qa]"],
+["Romania","Romania[ro]"],
+["Russia","Russia[ru]"],
+["Rwanda","Rwanda[rw]"],
+["Saint Kitts and Nevis","Saint Kitts and Nevis[kn]"],
+["Saint Lucia","Saint Lucia[lc]"],
+["Saint Vincent and Grenadines","Saint Vincent and Grenadines[vc]"],
+["Samoa","Samoa[ws]"],
+["San Marino","San Marino[sm]"],
+["São Tomé and Príncipe","São Tomé and Príncipe[st]"],
+["Saudi Arabia","Saudi Arabia[sa]"],
+["Senegal","Senegal[sn]"],
+["Serbia","Serbia[rs]"],
+["Seychelles","Seychelles[sc]"],
+["Sierra Leone","Sierra Leone[sl]"],
+["Singapore","Singapore[sg]"],
+["Slovakia","Slovakia[sk]"],
+["Slovenia","Slovenia[si]"],
+["Solomon Islands","Solomon Islands[sb]"],
+["Somalia","Somalia[so]"],
+["South Africa","South Africa[za]"],
+["South Korea","South Korea[kr]"],
+["South Sudan","South Sudan[ss]"],
+["Spain","Spain[es]"],
+["Sri Lanka","Sri Lanka[lk]"],
+["Sudan","Sudan[sd]"],
+["Suriname","Suriname[sr]"],
+["Swaziland","Swaziland[sz]"],
+["Sweden","Sweden[se]"],
+["Switzerland","Switzerland[ch]"],
+["Syria","Syria[sy]"],
+["Taiwan","Taiwan[tw]"],
+["Tajikistan","Tajikistan[tj]"],
+["Tanzania","Tanzania[tz]"],
+["Thailand","Thailand[th]"],
+["Timor-Leste","Timor-Leste[tl]"],
+["Togo","Togo[tg]"],
+["Tonga","Tonga[to]"],
+["Trinidad and Tobago","Trinidad and Tobago[tt]"],
+["Tunisia","Tunisia[tn]"],
+["Turkey","Turkey[tr]"],
+["Turkmenistan","Turkmenistan[tm]"],
+["Tuvalu","Tuvalu[tv]"],
+["Uganda","Uganda[ug]"],
+["Ukraine","Ukraine[ua]"],
+["United Arab Emirates","United Arab Emirates[ae]"],
+["United Kingdom","United Kingdom[gb]"],
+["United States","United States[us]"],
+["Uruguay","Uruguay[uy]"],
+["Uzbekistan","Uzbekistan[uz]"],
+["Vanuatu","Vanuatu[vu]"],
+["Venezuela","Venezuela[ve]"],
+["Vietnam","Vietnam[vn]"],
+["Yemen","Yemen[ye]"],
+["Zambia","Zambia[zm]"],
+["Zimbabwe","Zimbabwe[zw]"]
+					], :selected => f.object.country), {:prompt => "-Please select a country-"}, {:required => true, :class => "form-select"}) %>
+				</div>
+
+
+				<div class="form-group column col-sm-12">
+					<img id="province-flag" class="flag" src="/images/flags-province/<%= @meter.province ? @meter.province.partition("[").last.sub("]", "") : "zz" %>.png">
+					<%= f.label :province, "Region", class: "form-label disabled" %>
+					<%= f.select(:province, grouped_options_for_select({
+"Province" => [
+["Alberta","Alberta[ca-ab]"],
+["British Columbia","British Columbia[ca-bc]"],
+["Manitoba","Manitoba[ca-mb]"],
+["New Brunswick","New Brunswick[ca-nb]"],
+["Newfoundland and Labrador","Newfoundland and Labrador[ca-nl]"],
+["Nova Scotia","Nova Scotia[ca-ns]"],
+["Ontario","Ontario[ca-on]"],
+["Prince Edward Island","Prince Edward Island[ca-pe]"],
+["Québec","Québec[ca-qc]"],
+["Saskatchewan","Saskatchewan[ca-sk]"],
+["Alabama","Alabama[us-al]"],
+["Alaska","Alaska[us-ak]"],
+["Arizona","Arizona[us-az]"],
+["Arkansas","Arkansas[us-ar]"],
+["California","California[us-ca]"],
+["Colorado","Colorado[us-co]"],
+["Connecticut","Connecticut[us-ct]"],
+["Delaware","Delaware[us-de]"],
+["Florida","Florida[us-fl]"],
+["Georgia","Georgia[us-ga]"],
+["Hawaii","Hawaii[us-hi]"],
+["Idaho","Idaho[us-id]"],
+["Illinois","Illinois[us-il]"],
+["Indiana","Indiana[us-in]"],
+["Iowa","Iowa[us-ia]"],
+["Kansas","Kansas[us-ks]"],
+["Kentucky","Kentucky[us-ky]"],
+["Louisiana","Louisiana[us-la]"],
+["Maine","Maine[us-me]"],
+["Maryland","Maryland[us-md]"],
+["Massachusetts","Massachusetts[us-ma]"],
+["Michigan","Michigan[us-mi]"],
+["Minnesota","Minnesota[us-mn]"],
+["Mississippi","Mississippi[us-ms]"],
+["Missouri","Missouri[us-mo]"],
+["Montana","Montana[us-mt]"],
+["Nebraska","Nebraska[us-ne]"],
+["Nevada","Nevada[us-nv]"],
+["New Hampshire","New Hampshire[us-nh]"],
+["New Jersey","New Jersey[us-nj]"],
+["New Mexico","New Mexico[us-nm]"],
+["New York","New York[us-ny]"],
+["North Carolina","North Carolina[us-nc]"],
+["North Dakota","North Dakota[us-nd]"],
+["Ohio","Ohio[us-oh]"],
+["Oklahoma","Oklahoma[us-ok]"],
+["Oregon","Oregon[us-or]"],
+["Pennsylvania","Pennsylvania[us-pa]"],
+["Rhode Island","Rhode Island[us-ri]"],
+["South Carolina","South Carolina[us-sc]"],
+["South Dakota","South Dakota[us-sd]"],
+["Tennessee","Tennessee[us-tn]"],
+["Texas","Texas[us-tx]"],
+["Utah","Utah[us-ut]"],
+["Vermont","Vermont[us-vt]"],
+["Virginia","Virginia[us-va]"],
+["Washington","Washington[us-wa]"],
+["West Virginia","West Virginia[us-wv]"],
+["Wisconsin","Wisconsin[us-wi]"],
+["Wyoming","Wyoming[us-wy]"],
+["Aguascalientes","Aguascalientes[mx-agu]"],
+["Baja California","Baja California[mx-bcn]"],
+["Baja California Sur","Baja California Sur[mx-bcs]"],
+["Campeche","Campeche[mx-cam]"],
+["Chiapas","Chiapas[mx-chp]"],
+["Chihuahua","Chihuahua[mx-chh]"],
+["Coahuila","Coahuila[mx-coa]"],
+["Colima","Colima[mx-col]"],
+["Durango","Durango[mx-dur]"],
+["Guanajuato","Guanajuato[mx-gua]"],
+["Guerrero","Guerrero[mx-gro]"],
+["Hidalgo","Hidalgo[mx-hid]"],
+["Jalisco","Jalisco[mx-jal]"],
+["Méx","Méx[mx-mex]"],
+["Michoacán","Michoacán[mx-mic]"],
+["Morelos","Morelos[mx-mor]"],
+["Nayarit","Nayarit[mx-nay]"],
+["Nuevo León","Nuevo León[mx-nle]"],
+["Oaxaca","Oaxaca[mx-oax]"],
+["Puebla","Puebla[mx-pue]"],
+["Querétaro","Querétaro[mx-que]"],
+["Quintana Roo","Quintana Roo[mx-roo]"],
+["San Luis Potosí","San Luis Potosí[mx-slp]"],
+["Sinaloa","Sinaloa[mx-sin]"],
+["Sonora","Sonora[mx-son]"],
+["Tabasco","Tabasco[mx-tab]"],
+["Tamaulipas","Tamaulipas[mx-tam]"],
+["Tlaxcala","Tlaxcala[mx-tla]"],
+["Veracruz","Veracruz[mx-ver]"],
+["Yucatán","Yucatán[mx-yuc]"],
+["Zacatecas","Zacatecas[mx-zac]"],
+["New South Wales","New South Wales[au-nsw]"],
+["Queensland","Queensland[au-qld]"],
+["South Australia","South Australia[au-sa]"],
+["Tasmania","Tasmania[au-tas]"],
+["Victoria","Victoria[au-vic]"],
+["Western Australia","Western Australia[au-wa]"],
+["England","England[gb-eng]"],
+["Northern Ireland","Northern Ireland[gb-nir]"],
+["Scotland","Scotland[gb-sct]"],
+["Wales","Wales[gb-wls]"],
+["Auvergne-Rhône-Alpes","Auvergne-Rhône-Alpes[fr-auv]"],
+["Bretagne","Bretagne[fr-bre]"],
+["Bourgogne-Franche-Comté","Bourgogne-Franche-Comté[fr-bou]"],
+["Centre-Val de Loire","Centre-Val de Loire[fr-cen]"],
+["Corse","Corse[fr-cor]"],
+["Grand-Est","Grand-Est[fr-gra]"],
+["Hauts-de-France","Hauts-de-France[fr-hau]"],
+["Île-de-France","Île-de-France[fr-ile]"],
+["Nouvelle-Aquitaine","Nouvelle-Aquitaine[fr-nou]"],
+["Normandie","Normandie[fr-nor]"],
+["Occitanie","Occitanie[fr-occ]"],
+["Pays de la Loire","Pays de la Loire[fr-pay]"],
+["Provence-Alpes-Côte d'Azur","Provence-Alpes-Côte d'Azur[fr-pro]"],
+["Antwerpen","Antwerpen[be-an]"],
+["Brabant wallon","Brabant wallon[be-bw]"],
+["Hainaut","Hainaut[be-ht]"],
+["Liège","Liège[be-lg]"],
+["Limburg","Limburg[be-li]"],
+["Luxembourg","Luxembourg[be-lx]"],
+["Namur","Namur[be-na]"],
+["Oost-Vlaanderen","Oost-Vlaanderen[be-ov]"],
+["Vlaams-Brabant","Vlaams-Brabant[be-vb]"],
+["West-Vlaanderen","West-Vlaanderen[be-wv]"],
+["Baden-Württemberg","Baden-Württemberg[de-bw]"],
+["Bavaria","Bavaria[de-by]"],
+["Brandenburg","Brandenburg[de-bb]"],
+["Hessen","Hessen[de-he]"],
+["Mecklenburg-Vorpommern","Mecklenburg-Vorpommern[de-mv]"],
+["Niedersachsen","Niedersachsen[de-ni]"],
+["Nordrhein-Westfalen","Nordrhein-Westfalen[de-nw]"],
+["Rheinland-Pfalz","Rheinland-Pfalz[de-rp]"],
+["Saarland","Saarland[de-sl]"],
+["Sachsen","Sachsen[de-sn]"],
+["Sachsen-Anhalt","Sachsen-Anhalt[de-st]"],
+["Schleswig-Holstein","Schleswig-Holstein[de-sh]"],
+["Thüringen","Thüringen[de-th]"],
+["Aargau","Aargau[ch-ag]"],
+["Appenzell Ausserrhoden","Appenzell Ausserrhoden[ch-ar]"],
+["Appenzell Innerrhoden","Appenzell Innerrhoden[ch-ai]"],
+["Basel-Landschaft","Basel-Landschaft[ch-bl]"],
+["Basel-Stadt","Basel-Stadt[ch-bs]"],
+["Bern","Bern[ch-be]"],
+["Fribourg","Fribourg[ch-fr]"],
+["Geneva","Geneva[ch-ge]"],
+["Glarus","Glarus[ch-gl]"],
+["Graubünden","Graubünden[ch-gr]"],
+["Jura","Jura[ch-ju]"],
+["Luzern","Luzern[ch-lu]"],
+["Neuchâtel","Neuchâtel[ch-ne]"],
+["Nidwalden","Nidwalden[ch-nw]"],
+["Obwalden","Obwalden[ch-ow]"],
+["Schaffhausen","Schaffhausen[ch-sh]"],
+["Schwyz","Schwyz[ch-sz]"],
+["Solothurn","Solothurn[ch-so]"],
+["St. Gallen","St. Gallen[ch-sg]"],
+["Thurgau","Thurgau[ch-tg]"],
+["Ticino","Ticino[ch-ti]"],
+["Uri","Uri[ch-ur]"],
+["Valais","Valais[ch-vs]"],
+["Vaud","Vaud[ch-vd]"],
+["Zug","Zug[ch-zg]"],
+["Zürich","Zürich[ch-zh]"],
+["Andalucía","Andalucía[es-an]"],
+["Aragón","Aragón[es-ar]"],
+["Asturias","Asturias[es-as]"],
+["Canarias","Canarias[es-cn]"],
+["Cantabria","Cantabria[es-cb]"],
+["Castilla y León","Castilla y León[es-cl]"],
+["Castilla-La Mancha","Castilla-La Mancha[es-cm]"],
+["Cataluña","Cataluña[es-ct]"],
+["Comunidad de Madrid","Comunidad de Madrid[es-m]"],
+["Comunidad Valenciana","Comunidad Valenciana[es-vc]"],
+["Extremadura","Extremadura[es-ex]"],
+["Galicia","Galicia[es-ga]"],
+["Islas Baleares","Islas Baleares[es-ib]"],
+["La Rioja","La Rioja[es-lo]"],
+["Navarra","Navarra[es-na]"],
+["País Vasco","País Vasco[es-pv]"],
+["Región de Murcia","Región de Murcia[es-mu]"],
+["Buenos Aires","Buenos Aires[ar-ba]"],
+["Catamarca","Catamarca[ar-ct]"],
+["Chaco","Chaco[ar-cc]"],
+["Chubut","Chubut[ar-ch]"],
+["Corrientes","Corrientes[ar-cr]"],
+["Córdoba","Córdoba[ar-cd]"],
+["Entre Ríos","Entre Ríos[ar-er]"],
+["Formosa","Formosa[ar-fo]"],
+["Jujuy","Jujuy[ar-jy]"],
+["La Pampa","La Pampa[ar-lp]"],
+["La Rioja","La Rioja[ar-lr]"],
+["Mendoza","Mendoza[ar-mz]"],
+["Misiones","Misiones[ar-mn]"],
+["Neuquén","Neuquén[ar-nq]"],
+["Río Negro","Río Negro[ar-rn]"],
+["Salta","Salta[ar-sa]"],
+["San Juan","San Juan[ar-sj]"],
+["San Luis","San Luis[ar-sl]"],
+["Santa Cruz","Santa Cruz[ar-sc]"],
+["Santa Fe","Santa Fe[ar-sf]"],
+["Santiago del Estero","Santiago del Estero[ar-se]"],
+["Tierra del Fuego","Tierra del Fuego[ar-tf]"],
+["Tucumán","Tucumán[ar-tm]"],
+["Aichi (愛知県)","Aichi[jp-23]"],
+["Akita (秋田県)","Akita[jp-05]"],
+["Aomori (青森県)","Aomori[jp-02]"],
+["Chiba (千葉県)","Chiba[jp-12]"],
+["Ehime (愛媛県)","Ehime[jp-38]"],
+["Fukui (福井県)","Fukui[jp-18]"],
+["Fukuoka (福岡県)","Fukuoka[jp-40]"],
+["Fukushima (福島県)","Fukushima[jp-07]"],
+["Gifu (岐阜県)","Gifu[jp-21]"],
+["Gunma (群馬県)","Gunma[jp-10]"],
+["Hiroshima (広島県)","Hiroshima[jp-34]"],
+["Hokkaido (北海道)","Hokkaido[jp-01]"],
+["Hyōgo (兵庫県)","Hyōgo[jp-28]"],
+["Ibaraki (茨城県)","Ibaraki[jp-08]"],
+["Ishikawa (石川県)","Ishikawa[jp-17]"],
+["Iwate (岩手県)","Iwate[jp-03]"],
+["Kagawa (香川県)","Kagawa[jp-37]"],
+["Kagoshima (鹿児島県)","Kagoshima[jp-46]"],
+["Kanagawa (神奈川県)","Kanagawa[jp-14]"],
+["Kōchi (高知県)","Kōchi[jp-39]"],
+["Kumamoto (熊本県)","Kumamoto[jp-43]"],
+["Kyoto (京都府)","Kyoto[jp-26]"],
+["Mie (三重県)","Mie[jp-24]"],
+["Miyagi (宮城県)","Miyagi[jp-04]"],
+["Miyazaki (宮崎県)","Miyazaki[jp-45]"],
+["Nagano (長野県)","Nagano[jp-20]"],
+["Nagasaki (長崎県)","Nagasaki[jp-42]"],
+["Nara (奈良県)","Nara[jp-29]"],
+["Niigata (新潟県)","Niigata[jp-15]"],
+["Ōita (大分県)","Ōita[jp-44]"],
+["Okayama (岡山県)","Okayama[jp-33]"],
+["Okinawa (沖縄県)","Okinawa[jp-47]"],
+["Osaka (大阪府)","Osaka[jp-27]"],
+["Saga (佐賀県)","Saga[jp-41]"],
+["Saitama (埼玉県)","Saitama[jp-11]"],
+["Shiga (滋賀県)","Shiga[jp-25]"],
+["Shimane (島根県)","Shimane[jp-32]"],
+["Shizuoka (静岡県)","Shizuoka[jp-22]"],
+["Tochigi (栃木県)","Tochigi[jp-09]"],
+["Tokushima (徳島県)","Tokushima[jp-36]"],
+["Tokyo (東京都)","Tokyo[jp-13]"],
+["Tottori (鳥取県)","Tottori[jp-31]"],
+["Toyama (富山県)","Toyama[jp-16]"],
+["Wakayama (和歌山県)","Wakayama[jp-30]"],
+["Yamagata (山形県)","Yamagata[jp-06]"],
+["Yamaguchi (山口県)","Yamaguchi[jp-35]"],
+["Yamanashi (山梨県)","Yamanashi[jp-19]"],
+["Andhra Pradesh","Andhra Pradesh[in-ap]"],
+["Arunachal Pradesh","Arunachal Pradesh[in-ar]"],
+["Assam","Assam[in-as]"],
+["Bihar","Bihar[in-br]"],
+["Chhattisgarh","Chhattisgarh[in-ct]"],
+["Goa","Goa[in-ga]"],
+["Gujarat","Gujarat[in-gj]"],
+["Haryana","Haryana[in-hr]"],
+["Himachal Pradesh","Himachal Pradesh[in-hp]"],
+["Jammu and Kashmir","Jammu and Kashmir[in-jk]"],
+["Jharkhand","Jharkhand[in-jh]"],
+["Karnataka","Karnataka[in-ka]"],
+["Kerala","Kerala[in-kl]"],
+["Madhya Pradesh","Madhya Pradesh[in-mp]"],
+["Maharashtra","Maharashtra[in-mh]"],
+["Manipur","Manipur[in-mn]"],
+["Meghalaya","Meghalaya[in-ml]"],
+["Mizoram","Mizoram[in-mz]"],
+["Nagaland","Nagaland[in-nl]"],
+["Odisha","Odisha[in-or]"],
+["Punjab","Punjab[in-pb]"],
+["Rajasthan","Rajasthan[in-rj]"],
+["Sikkim","Sikkim[in-sk]"],
+["Tamil Nadu","Tamil Nadu[in-tn]"],
+["Telangana","Telangana[in-tg]"],
+["Tripura","Tripura[in-tr]"],
+["Uttar Pradesh","Uttar Pradesh[in-up]"],
+["Uttarakhand","Uttarakhand[in-ut]"],
+["West Bengal","West Bengal[in-wb]"],
+["Alexandria (محافظة الإسكندرية)","Alexandria[eg-2]"],
+["Aswan (محافظة أسوان)","Aswan[eg-27]"],
+["Asyut (محافظة أسيوط)","Asyut[eg-22]"],
+["Beheira (محافظة البحيرة)","Beheira[eg-3]"],
+["Beni Suef (محافظة بنى سويف)","Beni Suef[eg-19]"],
+["Cairo (محافظة القاهرة)","Cairo[eg-16]"],
+["Dakahlia (محافظة الدقهلية)","Dakahlia[eg-5]"],
+["Damietta (محافظة دمياط)","Damietta[eg-6]"],
+["Faiyum (محافظة الفيوم)","Faiyum[eg-15]"],
+["Gharbia (محافظة الغربية)","Gharbia[eg-9]"],
+["Giza (محافظة الجيزة)","Giza[eg-14]"],
+["Ismailia (محافظة الإسماعيلية)","Ismailia[eg-13]"],
+["Kafr El Sheikh (محافظة كفر الشيخ)","Kafr El Sheikh[eg-4]"],
+["Luxor (محافظة الأقصر)","Luxor[eg-26]"],
+["Matrouh (محافظة مطروح)","Matrouh[eg-1]"],
+["Minya (محافظة المنيا)","Minya[eg-20]"],
+["Monufia (محافظة المنوفية)","Monufia[eg-10]"],
+["New Valley (محافظة الوادي الجديد)","New Valley[eg-21]"],
+["North Sinai (محافظة شمال سيناء)","North Sinai[eg-8]"],
+["Port Said (محافظة بورسعيد)","Port Said[eg-7]"],
+["Qalyubia (محافظة القليوبية)","Qalyubia[eg-11]"],
+["Qena (محافظة قنا)","Qena[eg-25]"],
+["Red Sea (محافظة البحر الأحمر)","Red Sea[eg-23]"],
+["Sharqia (محافظة الشرقية)","Sharqia[eg-12]"],
+["Sohag (محافظة سوهاج)","Sohag[eg-24]"],
+["South Sinai (محافظة جنوب سيناء)","South Sinai[eg-18]"],
+["Suez (محافظة السويس)","Suez[eg-17]"],
+["Eastern Cape","Eastern Cape[za-ec]"],
+["Free State","Free State[za-fs]"],
+["Gauteng","Gauteng[za-ga]"],
+["KwaZulu-Natal","KwaZulu-Natal[za-na]"],
+["Limpopo","Limpopo[za-li]"],
+["Mpumalanga","Mpumalanga[za-mp]"],
+["North West","North West[za-nw]"],
+["Northern Cape","Northern Cape[za-nc]"],
+["Western Cape","Western Cape[za-wc]"]
+	],
+"Territory" => [
+["Northwest Territories","Northwest Territories[ca-nt]"],
+["Nunavut","Nunavut[ca-nu]"],
+["Yukon","Yukon[ca-yt]"],
+["District of Columbia","District of Columbia[us-dc]"],
+["Guam","Guam[us-gu]"],
+["Puerto Rico","Puerto Rico[us-pr]"],
+["Ciudad de México (Distrito Federal)","Ciudad de México (Distrito Federal)[mx-dfe]"],
+["Australian Capital Territory","Australian Capital Territory[au-act]"],
+["Northern Territory","Northern Territory[au-nt]"],
+["Anguilla","Anguilla[gb-ai]"],
+["Bermuda","Bermuda[gb-bm]"],
+["British Virgin Islands","British Virgin Islands[gb-vg]"],
+["Cayman Islands","Cayman Islands[gb-ky]"],
+["Gibraltar","Gibraltar[gb-gi]"],
+["Turks and Caicos Islands","Turks and Caicos Islands[gb-tc]"],
+["Guadeloupe","Guadeloupe[fr-gua]"],
+["Guyane","Guyane[fr-guy]"],
+["Martinique","Martinique[fr-mar]"],
+["Mayotte","Mayotte[fr-may]"],
+["Réunion","Réunion[fr-reu]"],
+["Brussels","Brussels[be-bru]"],
+["Vlaams Gewest","Vlaams Gewest[be-vlg]"],
+["Wallonie","Wallonie[be-wal]"],
+["Berlin","Berlin[de-be]"],
+["Freie Hansestadt Bremen","Freie Hansestadt Bremen[de-hb]"],
+["Hamburg","Hamburg[de-hh]"],
+["Ceuta","Ceuta[es-ce]"],
+["Melilla","Melilla[es-ml]"],
+["Ciudad de Buenos Aires","Ciudad de Buenos Aires[ar-cf]"],
+["Andaman and Nicobar Islands","Andaman and Nicobar Islands[in-an]"],
+["Chandigarh","Chandigarh[in-ch]"],
+["Dadra and Nagar Haveli","Dadra and Nagar Haveli[in-dn]"],
+["Daman and Diu","Daman and Diu[in-dd]"],
+["Delhi","Delhi[in-dl]"],
+["Lakshadweep","Lakshadweep[in-ld]"],
+["Puducherry","Puducherry[in-py]"]
+	]}, :selected => f.object.province), {:include_blank => "-"}, {:disabled => true, :class => "form-select"}) %>
+				</div>
+			</div>
+
+			<div class="columns">
+				<div class="form-group column col-sm-12">
+					<%= f.label :individual_name, "Politician's Name", class: "form-label" %>
+					<%= f.text_field :individual_name, :required => true, class: "form-input" %>
+				</div>
+
+				<div class="form-group column col-sm-12">
+					<%= f.label :level, "Level of Governance", class: "form-label" %>
+					<%= f.select(:level, grouped_options_for_select({
+	"National" => [["Country","Country"]],
+	"Administrative Subdivisions" => [
+	["County/Parish/Borough","County/Parish/Borough"],
+	["Province","Province"],
+	["Region","Region"],
+	["Territory","Territory"],
+	["State","State"]],
+	"Metropolitan Areas" => [["City Council","City Council"],
+	["Municipality","Municipality"],
+	["Township","Township"],
+	["Village","Village"]],
+	"Other" => [["School Board","School Board"],
+	["University","University"],
+	["Other","Other"]
+					]}, :selected => f.object.level), {:prompt => "-Please select a level-"}, {:required => true, :class => "form-select"}) %>
+				</div>
+			</div>
+
+			<div class="columns">
+				<div class="form-group column col-sm-12">
+					<%= f.label :date_elected, "Date Elected", class: "form-label", :data => {:icon => "&#xf073;".html_safe} %>
+					<%= f.text_field :date_elected, required: true, autocomplete: "off", class: "form-input date", value: @meter.date_elected.try(:strftime, "%b %d, %Y") %>
+				</div>
+				<div class="form-group column col-sm-12">
+					<%= f.label :date_office, "Date Took Office", class: "form-label", :data => {:icon => "&#xf073;".html_safe} %>
+					<%= f.text_field :date_office, required: true, autocomplete: "off", class: "form-input date", value: @meter.date_office.try(:strftime, "%b %d, %Y") %>
+				</div>
+			</div>
+			<div class="columns">
+				<div class="form-group column col-sm-12">
+					<label class="form-checkbox">
+						<% if @meter.persisted? %>
+							<%= f.check_box :show_date %>
+						<% else %>
+							<%= f.check_box :show_date, checked: true %>
+						<% end %>
+						<i class="form-icon"></i>
+						<span>Show election date</span>
+        			</label>
+				</div>
+				<div class="form-group column col-sm-12">
+					<label class="form-checkbox">
+						<%= f.check_box :direction %>
+						<i class="form-icon"></i>
+						<span>Right-to-left text (like Arabic or Hebrew)</span>
+        			</label>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="form-checkbox">
+					<%= f.check_box :has_logs, disabled: ((current_user.has_role? :polimeter_premium) ? false : true) %>
+					<i class="form-icon"></i>
+					<span>Show activity logs for each promise</span>
+					<span class="premium"></span>
+				</label>
+			</div>
+
+		</div>
+	</div>
+
+	<div class="columns">
+		<div class="column col-3 col-sm-12">
+			<h6>Social Media</h6>
+		</div>
+
+		<div class="column col-9 col-sm-12">
+			<div class="form-group">
+				<%= f.label :facebook_key, "Facebook Group", class: "form-label optional", data: {icon: "&#xf082".html_safe} %>
+				<%= f.text_field :facebook_key, placeholder: "https://www.facebook.com/facebookgroup", class: "form-input" %>
+			</div>
+			<div class="form-group">
+				<%= f.label :twitter_key, "Twitter Handle", class: "form-label optional", data: {icon: "&#xf099".html_safe} %>
+				<%= f.text_field :twitter_key, placeholder: "@twitterhandle", class: "form-input" %>
+			</div>
+			<div class="form-group">
+				<%= f.label :disqus_key, "Disqus Shortname", class: "form-label optional", data: {icon: "&#xf0e6".html_safe} %>
+				<%= f.text_field :disqus_key, placeholder: "disqusidentifier", class: "form-input" %>
+			</div>
+			<div class="form-group">
+				<%= f.label :patreon_key, "Patreon Page", class: "form-label optional", data: {icon: "&#xf0d6".html_safe} %>
+				<%= f.text_field :patreon_key, placeholder: "https://www.patreon.com/patreonpage", class: "form-input" %>
+			</div>
+			<div class="form-group">
+				<%= f.label :google_analytics_code, "Google Analytics", class: "form-label optional", data: {icon: "&#xf080;".html_safe} %>
+				<%= f.text_field :google_analytics_code, placeholder: "UA-XXXXXXXX-X", class: "form-input", disabled: ((current_user.has_role? :polimeter_premium) ? false : true) %>
+				<span class="premium"></span>
+			</div>
+		</div>
+	</div>
+
+	<div class="columns">
+		<div class="column col-3 col-sm-12">
+			<h6>Promise Statuses</h6>
+		</div>
+
+		<div class="column col-9 col-sm-12">
+			<% [:status1, :status2, :status3, :status4].each_with_index do |i, index| %>
+				<div class="form-group">
+					<%= f.label i, "Status #" + (index + 1).to_s, class: "form-label", :data => {icon: index === 0 ? "&#xf251;".html_safe : index === 1 ? "&#xf085;".html_safe : index === 2 ? "&#xf05d;".html_safe : "&#xf05e;".html_safe} %>
+					<% if @meter.persisted? %>
+						<%= f.text_field i, required: true, maxlength: 20, class: "form-input" %>
+					<% else %>
+						<%= f.text_field i, required: true, maxlength: 20, class: "form-input", value: index === 0 ? "Not started" : index === 1 ? "In progress" : index === 2 ? "Achieved" : "Broken" %>
+					<% end %>
+					<span class="max"></span>
+				</div>
+			<% end %>
+		</div>
+
+<!--
+		<div class="column col-4 col-sm-12">
+			<%# [["hourglass-start", "Hourglass", "grey"], ["cogs", "Cogs", "orange"], ["check-circle-o", "Checkmark", "#00c864"], ["ban", "Ban", "indianred"]].each_with_index do |i, index| %>
+				<div class="form-group">
+					<label class="form-label">Icon</label>
+					<i class="fa fa-<%#= i[0] %> fa-fw"></i>
+					<span class="inline-block float-right" style="background-color:<%#= i[2] %>;border-radius:.2rem;height:1.25em;width:1.25em"></span>
+					<select disabled class="form-select">
+						<option selected><%#= i[1] %></option>
+					</select>
+				</div>
+			<%# end %>
+		</div>
+-->
+	</div>
+
+	<div class="columns promise_categories">
+		<div class="column col-3 col-sm-12">
+			<h6>Promise Categories</h6>
+		</div>
+
+		<div class="column col-5 col-sm-12">
+			<% [:category1, :category2, :category3, :category4, :category5, :category6, :category7].each_with_index do |category, index| %>
+				<div class="form-group">
+					<%= f.label category, "Category #" + (index + 1).to_s, class: "form-label", data: {icon: ""} %>
+					<%= f.text_field category, required: index === 0, class: "form-input" %>
+					<label class="form-radio tooltip" data-tooltip="Make this the default category">
+						<% if @meter.persisted? %>
+							<%= f.radio_button :default_category, (index + 1) %>
+						<% else %>
+							<%= f.radio_button :default_category, (index + 1), checked: index === 0 %>
+						<% end %>
+						<i class="form-icon" style="left:.8rem;position:absolute;top:.8rem"></i>
+					</label>
+				</div>
+			<% end %>
+			<button type="button" id="add_category" class="btn" style="display:none">Add a new category</button>
+		</div>
+
+		<div class="column col-4 col-sm-12">
+			<% icon_categories = [f.object.icon_category1, f.object.icon_category2, f.object.icon_category3, f.object.icon_category4, f.object.icon_category5, f.object.icon_category6, f.object.icon_category7] %>
+			<% [:icon_category1, :icon_category2, :icon_category3, :icon_category4, :icon_category5, :icon_category6, :icon_category7].each_with_index do |i, index| %>
+				<div class="form-group">
+					<%= f.label i, "Icon", class: "form-label", style: "display:inline-block" %>
+					<i></i>
+					<%= f.select(i, grouped_options_for_select({
+"No Icon" => [["Nothing",""]],
+"Democracy" => [["Education","graduation-cap"], ["Institution","university"], ["Justice","balance-scale"], ["News Media","newspaper-o"], ["People","users"]],
+"Economy" => [["Dollar","usd"], ["Euro","eur"], ["Money","money"], ["Pound","gbp"], ["Rupee","inr"], ["Stock Market","line-chart"], ["Yen/Yuan","jpy"]],
+"Environment" => [["Leaf","leaf"], ["Planet","globe"], ["Recycling","recycle"], ["Sun","sun-o"], ["Temperature","thermometer-three-quarters"], ["Water","tint"], ["Wildlife","paw"]],
+"Infrastructure" => [["Bicycle","bicycle"], ["Bus","bus"], ["Car","car"], ["Electricity","bolt"], ["Hospital","h-square"], ["Plane","plane"], ["Road","road"], ["Ship","ship"], ["Train","train"]],
+"Other" => [["Book","book"], ["Coffee","coffee"], ["Fighter Jet","fighter-jet"], ["Magic","magic"], ["Music","music"], ["Suitcase","suitcase"]]
+					}, :selected => icon_categories[index]), {}, {:class => "form-select"}) %>
+				</div>
+			<% end %>
+		</div>
+	</div>
+
+	<div class="columns">
+		<div class="column col-3 col-sm-12">
+			<h6>Additional Configuration</h6>
+		</div>
+
+		<div class="column col-9 col-sm-12">
+			<div class="form-group">
+				<%= f.label :description, "Description", class: "form-label" %>
+				<p>Describe briefly what this meter does and who it's for. This will appear in the dark box on the front page of your meter. The text you write here accepts HTML markup - you can insert <a href="https://en.wikipedia.org/wiki/HTML_element#Anchor" target="_blank">links</a> or make text <a href="https://en.wikipedia.org/wiki/HTML_element#Presentation" target="_blank">bold or italic</a> for example.</p>
+				<%= f.text_area :description, required: true, class: "form-input autosize" %>
+			</div>
+			<div class="form-group">
+				<%= f.label :image_logo, "Logo", class: "form-label optional" %>
+				<p>Your custom logo will show up in the top left corner of your meter. If you upload a logo, it's good practice to include your meter name in the image. We recommend an aspect ratio of 5:1 (width:height) - for example, 500px wide for 100px high. The maximum size is 100kb.</p>
+				<%= f.file_field :image_logo, class: "form-input file-upload",  data: {max: 100000} %>
+				<p class="message" style="border-color:red;color:red;margin-top:0"></p>
+			</div>
+			<div class="form-group">
+				<%= f.label :image_politician, "Politician Image", class: "form-label optional" %>
+				<p>Your custom image will show up to the right inside the dark description box on your main page. If you want some nice custom shape effects, make sure to use a .png with transparent background. We recommend an aspect ratio of 1:2 (width:height) - for example, 200px wide for 400px high. The maximum size is 100kb.</p>
+				<%= f.file_field :image_politician, class: "form-input file-upload", data: {max: 100000} %>
+				<p class="message" style="border-color:red;color:red;margin-top:0"></p>
+			</div>
+			<div class="form-group">
+				<%= f.label :description_width, "Description Text Width", class: "form-label" %>
+				<%= f.select(:description_width, options_for_select([["100%", 100], ["95%", 95], ["90%", 90], ["85%", 85], ["80%", 80], ["75%", 75], ["70%", 70], ["65%", 65], ["60%", 60], ["55%", 55], ["50%", 50]], :selected => f.object.description_width), {}, {class: "form-select"}) %>
+			</div>
+
+			<div class="form-group">
+				<div id="meter-preview">
+					<div id="meter-preview-header">
+						<div id="meter-preview-name" class="text-bold text-large" style="display:<%= "none" unless @meter.try(:image_logo).blank? %>"><%= @meter.try(:name) %></div>
+						<img id="meter-preview-logo" src="<%= @meter.try(:image_logo) %>" style="display:<%= "none" unless !@meter.try(:image_logo).blank? %>">
+						<div class="float-right">
+							<span>ABOUT</span>
+							<span>ANALYTICS</span>
+							<span>BLOG</span>
+							<span>HOUSE RULES</span>
+						</div>
+					</div>
+					<div id="meter-preview-main">
+						<div id="meter-preview-summary">
+							<div id="meter-preview-meter_date" style="border-bottom:.1rem solid #eee">
+								<i class="fa fa-calendar fa-fw primary-color"></i>
+								<span id="meter-preview-days"><%= @meter.try(:text_days) || "Days in office" %></span>
+							</div>
+							<div>
+								<i class="fa fa-hourglass-start fa-fw status1"></i>
+								<span id="meter-preview-meter_status1"><%= @meter.try(:status1) || "Not started" %></span>
+								<div class="bar"></div>
+							</div>
+							<div>
+								<i class="fa fa-cogs fa-fw status2"></i>
+								<span id="meter-preview-meter_status2"><%= @meter.try(:status2) || "In progress" %></span>
+								<div class="bar"></div>
+							</div>
+							<div>
+								<i class="fa fa-check-circle-o fa-fw status3"></i>
+								<span id="meter-preview-meter_status3"><%= @meter.try(:status3) || "Achieved" %></span>
+								<div class="bar"></div>
+							</div>
+							<div>
+								<i class="fa fa-ban fa-fw status4"></i>
+								<span id="meter-preview-meter_status4"><%= @meter.try(:status4) || "Broken" %></span>
+								<div class="bar"></div>
+							</div>
+						</div>
+						<div id="meter-preview-description" class="float-right" style="background-image:url('<%= @meter.try(:image_politician) %>')">
+							<div style="white-space:pre-line;width:<%= @meter.try(:description_width) %>%"><%= sanitize @meter.try(:description) %></div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<%= f.label :about, "About", class: "form-label" %>
+				<p>Tell us more about who you are and why you're doing this. This will appear in the "About" section of your meter. The text you write here accepts HTML markup - you can insert <a href="https://en.wikipedia.org/wiki/HTML_element#Anchor" target="_blank">links</a> or make text <a href="https://en.wikipedia.org/wiki/HTML_element#Presentation" target="_blank">bold or italic</a> for example.</p>
+				<%= f.text_area :about, required: true, class: "form-input autosize" %>
+			</div>
+			<div class="form-group">
+				<%= f.label :rules, "House Rules", class: "form-label optional" %>
+				<p>Establish some ground rules to keep everyone on the same page. They will appear in the "House Rules" section of your meter. The text you write here accepts HTML markup - you can insert <a href="https://en.wikipedia.org/wiki/HTML_element#Anchor" target="_blank">links</a> or make text <a href="https://en.wikipedia.org/wiki/HTML_element#Presentation" target="_blank">bold or italic</a> for example.</p>
+				<%= f.text_area :rules, class: "form-input autosize" %>
+			</div>
+		</div>
+	</div>
+
+	<div class="columns">
+		<div class="column col-3 col-sm-12">
+			<h6>Other Text</h6>
+		</div>
+
+		<div class="column col-9 col-sm-12">
+			<div class="columns">
+				<div class="form-group column col-sm-12">
+					<%= f.label :text_days, "'Days in office'", class: "form-label" %>
+					<% if @meter.persisted? %>
+						<%= f.text_field :text_days, maxlength: 20, class: "form-input" %>
+					<% else %>
+						<%= f.text_field :text_days, maxlength: 20, class: "form-input", value: "Days in office" %>
+					<% end %>
+					<span class="max"></span>
+				</div>
+				<div class="form-group column col-sm-12">
+					<%= f.label :text_of, "'of' <span style='font-weight:normal'>(as in: Promises achieved: 5 <b>of</b> 10)</span>".html_safe, class: "form-label" %>
+					<% if @meter.persisted? %>
+						<%= f.text_field :text_of, maxlength: 6, class: "form-input" %>
+					<% else %>
+						<%= f.text_field :text_of, maxlength: 6, class: "form-input", value: "of" %>
+					<% end %>
+					<span class="max"></span>
+				</div>
+			</div>
+			<div class="columns">
+				<div class="form-group column col-sm-12">
+					<%= f.label :text_about, "'About'", class: "form-label" %>
+					<% if @meter.persisted? %>
+						<%= f.text_field :text_about, maxlength: 20, class: "form-input" %>
+					<% else %>
+						<%= f.text_field :text_about, maxlength: 20, class: "form-input", value: "About" %>
+					<% end %>
+					<span class="max"></span>
+				</div>
+				<div class="form-group column col-sm-12">
+					<%= f.label :text_blog, "'Blog'", class: "form-label" %>
+					<% if @meter.persisted? %>
+						<%= f.text_field :text_blog, maxlength: 20, class: "form-input" %>
+					<% else %>
+						<%= f.text_field :text_blog, maxlength: 20, class: "form-input", value: "Blog" %>
+					<% end %>
+					<span class="max"></span>
+				</div>
+			</div>
+			<div class="columns">
+				<div class="form-group column col-sm-12">
+					<%= f.label :text_rules, "'House Rules'", class: "form-label" %>
+					<% if @meter.persisted? %>
+						<%= f.text_field :text_rules, maxlength: 20, class: "form-input" %>
+					<% else %>
+						<%= f.text_field :text_rules, maxlength: 20, class: "form-input", value: "House Rules" %>
+					<% end %>
+					<span class="max"></span>
+				</div>
+				<div class="form-group column col-sm-12">
+					<%= f.label :text_analytics, "'Statistics'", class: "form-label" %>
+					<% if @meter.persisted? %>
+						<%= f.text_field :text_analytics, maxlength: 20, class: "form-input" %>
+					<% else %>
+						<%= f.text_field :text_analytics, maxlength: 20, class: "form-input", value: "Statistics" %>
+					<% end %>
+					<span class="max"></span>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="columns<% if @meter.persisted? && @meter.b_direction %> rtl<% end %>">
+		<div class="column col-3 col-sm-12">
+			<h6>Bilingualism</h6>
+		</div>
+
+		<div class="column col-9 col-sm-12">
+			<div class="form-group unchecked">
+				<label class="form-switch">
+            		<%= f.check_box :bilingual %>
+            		<i class="form-icon"></i> Bilingual meter
+        		</label>
+        		<p>If you make your meter bilingual, you will have to provide a translation for each promise and article you create.</p>
+			</div>
+
+			<div class="form-group">
+				<%= f.label :b_language, "Other Language", class: "form-label" %>
+				<%= f.text_field :b_language, maxlength: 20, class: "form-input" %>
+				<span class="max"></span>
+			</div>
+
+			<div class="form-group">
+				<div class="form-group column col-sm-12">
+					<label class="form-checkbox">
+						<%= f.check_box :b_direction %>
+						<i class="form-icon"></i>
+						<span>Right-to-left text (like Arabic or Hebrew)</span>
+        			</label>
+				</div>
+			</div>
+
+			<h6>Status translations</h6>
+
+			<div class="form-group">
+				<%= f.label :b_status1, "'Not started' translation", class: "form-label" %>
+				<%= f.text_field :b_status1, maxlength: 20, class: "form-input" %>
+				<span class="max"></span>
+			</div>
+			<div class="form-group">
+				<%= f.label :b_status2, "'In progress' translation", class: "form-label" %>
+				<%= f.text_field :b_status2, maxlength: 20, class: "form-input" %>
+				<span class="max"></span>
+			</div>
+			<div class="form-group">
+				<%= f.label :b_status3, "'Achieved' translation", class: "form-label" %>
+				<%= f.text_field :b_status3, maxlength: 20, class: "form-input" %>
+				<span class="max"></span>
+			</div>
+			<div class="form-group">
+				<%= f.label :b_status4, "'Broken' translation", class: "form-label" %>
+				<%= f.text_field :b_status4, maxlength: 20, class: "form-input" %>
+				<span class="max"></span>
+			</div>
+
+			<h6>Category translations</h6>
+
+			<% [:b_category1, :b_category2, :b_category3, :b_category4, :b_category5, :b_category6, :b_category7].each_with_index do |i, index| %>
+				<div class="form-group">
+					<%= f.label i, "Category #" + (index + 1).to_s + " translation", class: "form-label" %>
+					<%= f.text_field i, class: "form-input" %>
+				</div>
+			<% end %>
+
+			<h6>Additional text translations</h6>
+
+			<div class="columns">
+				<div class="form-group column col-sm-12">
+					<%= f.label :b_text_days, "'Days in office' (second language)", class: "form-label" %>
+					<%= f.text_field :b_text_days, maxlength: 20, class: "form-input" %>
+					<span class="max"></span>
+				</div>
+				<div class="form-group column col-sm-12">
+					<%= f.label :b_text_of, "'of' (second language) <span>(as in: Promises achieved: 5 <b>of</b> 10)</span>".html_safe, class: "form-label" %>
+					<%= f.text_field :b_text_of, maxlength: 6, class: "form-input" %>
+					<span class="max"></span>
+				</div>
+			</div>
+			<div class="columns">
+				<div class="form-group column col-sm-12">
+					<%= f.label :b_text_about, "'About' (second language)", class: "form-label" %>
+					<%= f.text_field :b_text_about, maxlength: 20, class: "form-input" %>
+					<span class="max"></span>
+				</div>
+				<div class="form-group column col-sm-12">
+					<%= f.label :b_text_blog, "'Blog' (second language)", class: "form-label" %>
+					<%= f.text_field :b_text_blog, maxlength: 20, class: "form-input" %>
+					<span class="max"></span>
+				</div>
+			</div>
+			<div class="columns">
+				<div class="form-group column col-sm-12">
+					<%= f.label :b_text_rules, "'House Rules' (second language)", class: "form-label" %>
+					<%= f.text_field :b_text_rules, maxlength: 20, class: "form-input" %>
+					<span class="max"></span>
+				</div>
+				<div class="form-group column col-sm-12">
+					<%= f.label :b_text_analytics, "'Statistics' (second language)", class: "form-label" %>
+					<%= f.text_field :b_text_analytics, maxlength: 20, class: "form-input" %>
+					<span class="max"></span>
+				</div>
+			</div>
+			<div class="form-group">
+				<%= f.label :b_description, "'Description' main page translation", class: "form-label" %>
+				<%= f.text_area :b_description, class: "form-input autosize" %>
+			</div>
+			<div class="form-group">
+				<%= f.label :b_about, "'About' section translation", class: "form-label" %>
+				<%= f.text_area :b_about, class: "form-input autosize" %>
+			</div>
+			<div class="form-group">
+				<%= f.label :b_rules, "'Rules' section translation", class: "form-label" %>
+				<%= f.text_area :b_rules, class: "form-input autosize" %>
+			</div>
+		</div>
+	</div>
+
+	<%= f.submit (@meter.persisted? ? "Save changes" : "Create new meter"), class: "btn btn-primary btn-lg", style: "width:100%" %>
+<% end %>

@@ -1,0 +1,38 @@
+<footer>
+	<% if @meter && @meter.subdomain === "trudeaumetre" %>
+		<div class="flags">
+			<div class="container">
+				<a href="https://en.wikipedia.org/wiki/Yukon" target="_blank"><img src="/images/flags-province/ca-yt.png"></a>
+				<a href="https://en.wikipedia.org/wiki/Northwest_Territories" target="_blank"><img src="/images/flags-province/ca-nt.png"></a>
+				<a href="https://en.wikipedia.org/wiki/Nunavut" target="_blank"><img src="/images/flags-province/ca-nu.png"></a>
+			</div>
+			<div class="container">
+				<a href="https://en.wikipedia.org/wiki/British_Columbia" target="_blank"><img src="/images/flags-province/ca-bc.png"></a>
+				<a href="https://en.wikipedia.org/wiki/Alberta" target="_blank"><img src="/images/flags-province/ca-ab.png"></a>
+				<a href="https://en.wikipedia.org/wiki/Saskatchewan" target="_blank"><img src="/images/flags-province/ca-sk.png"></a>
+				<a href="https://en.wikipedia.org/wiki/Manitoba" target="_blank"><img src="/images/flags-province/ca-mb.png"></a>
+				<a href="https://en.wikipedia.org/wiki/Ontario" target="_blank"><img src="/images/flags-province/ca-on.png"></a>
+				<a href="https://en.wikipedia.org/wiki/Quebec" target="_blank"><img src="/images/flags-province/ca-qc.png"></a>
+				<a href="https://en.wikipedia.org/wiki/New_Brunswick" target="_blank"><img src="/images/flags-province/ca-nb.png"></a>
+				<a href="https://en.wikipedia.org/wiki/Nova_Scotia" target="_blank"><img src="/images/flags-province/ca-ns.png"></a>
+				<a href="https://en.wikipedia.org/wiki/Prince_Edward_Island" target="_blank"><img src="/images/flags-province/ca-pe.png"></a>
+				<a href="https://en.wikipedia.org/wiki/Newfoundland_and_Labrador" target="_blank"><img src="/images/flags-province/ca-nl.png"></a>
+			</div>
+		</div>
+	<% end %>
+	<div class="sitemap">
+		<div class="container">
+			<%= link_to "About Polimeter", aboutpolimeter_url(:subdomain => "www"), target: "_blank" %> | 
+			<%= link_to "Contact Polimeter", contact_url(:subdomain => "www"), target: "_blank" %> | 
+			<%= link_to "Support Polimeter", support_url(:subdomain => "www"), target: "_blank" %> | 
+			<%= link_to "Terms", terms_url(:subdomain => "www"), target: "_blank" %> | 
+			<%= link_to "Privacy", privacy_url(:subdomain => "www"), target: "_blank" %>
+		</div>
+	</div>
+	<div class="colophon">
+		<div class="container">
+			<p>Made with <i class="fa fa-heart"></i> with <a href="http://rubyonrails.org/" target="_blank">Ruby on Rails</a>, <a href="https://disqus.com/" target="_blank">Disqus</a>, a sprinkle of <a href="https://jquery.com/" target="_blank">jQuery</a>, and a healthy dose of <a href="http://www.timhortons.com/ca/en/menu/original-blend.php" target="_blank">Tim Hortons coffee</a> :)</p>
+			<!--<p>&copy; 2020</p>-->
+		</div>
+	</div>
+</footer>

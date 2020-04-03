@@ -1,0 +1,33 @@
+<%= render "main/header" %>
+
+<section id="contact">
+	<div class="container">
+		<h1>Contact Polimeter</h1>
+
+		<%= form_for @contact do |f| %>
+			<div class="form-group">
+				<%= f.label :name, "Your Name", class: "form-label" %>
+				<%= f.text_field :name, required: true, class: "form-input" %>
+			</div>
+			<div class="form-group">
+				<%= f.label :email, "Your Email Address", class: "form-label" %>
+				<%= f.email_field :email, required: true, class: "form-input" %>
+			</div>
+			<div class="form-group">
+				<%= f.label :description, "Your Message", class: "form-label" %>
+				<%= f.text_area :description, required: true, class: "form-input autosize" %>
+			</div>
+			<div class= "hidden" style="display:none">
+				<%= f.text_field :nickname, :placeholder => "hide me", :hint => "Leave this field blank!" %>
+			</div>
+			<div class="form-group">
+				<%= f.submit "Send message", class: "btn btn-primary" %>
+			</div>
+		<% end %>
+		<div id="notice"><%= notice %></div>
+	</div>
+</section>
+
+<%= render "main/footer" %>
+
+<%= javascript_include_tag "application" %>

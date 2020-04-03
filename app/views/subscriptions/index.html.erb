@@ -1,0 +1,21 @@
+<%= render "main/header" %>
+
+
+<section class="breadcrumbs">
+	<div class="container">
+		<a class="btn btn-link btn-lg disabled" style="color:inherit;opacity:1">Subscriptions</a>
+	</div>
+</section>
+
+<section class="dashboard">
+	<div class="container">
+			<% if current_user.has_role? :polimeter_premium %>
+				<h3>Subscribed to Polimeter Premium</h3>
+				<h4>Auto Renew Date: <b><%=@subscription.end_date%></b> </h4>
+				<%= button_to 'Cancel Subscription', subscription_path(@subscription), :method => :delete %>
+
+			<% else %>
+				<%= link_to 'Subscribe to Polimeter Premium', pricing_path %>
+			<% end %>
+	</div>
+</section>

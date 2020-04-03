@@ -1,0 +1,75 @@
+.easy-autocomplete {
+	display: inline-block;
+	position: relative;
+	a {
+		display: block;
+	}
+}
+.easy-autocomplete-container {
+	color: $text-color;
+	left: 0;
+	position: absolute;
+	width: 100%;
+	z-index: 2;
+	ul {
+		background-color: white;
+		display: none;
+		margin-top: 0;
+		padding-bottom: 0;
+		padding-left: 0;
+		position: relative;
+		top: -1px;
+		li,
+		.eac-category {
+			background: inherit;
+			border-color: #ccc;
+			border-image: none;
+			border-style: solid;
+			border-width: 0 1px;
+			display: block;
+			font-size: 14px;
+			font-weight: normal;
+			padding: 4px 12px;
+		}
+	}
+}
+.easy-autocomplete-container ul li.selected {
+	background: none repeat scroll 0 0 #ebebeb;
+	cursor: pointer;
+}
+.easy-autocomplete-container ul li.selected div {
+	font-weight: normal;
+}
+.easy-autocomplete-container ul li div {
+	display: block;
+	font-weight: normal;
+	word-break: break-all;
+}
+.easy-autocomplete-container ul li b {
+	font-weight: bold;
+}
+.easy-autocomplete-container ul .eac-category {
+	font-color: #aaa;
+	font-style: italic;
+}
+.eac-description .eac-item span {
+	color: #aaa;
+	font-style: italic;
+	font-size: 0.9em;
+}
+.eac-icon-left .eac-item img {
+	margin-right: 4px;
+	max-height: 30px;
+}
+.eac-icon-right .eac-item {
+	margin-top: 8px;
+	min-height: 24px;
+	position: relative;
+}
+.eac-icon-right .eac-item img {
+	margin-left: 4px;
+	max-height: 30px;
+	position: absolute;
+	right: -4px;
+	top: -8px;
+}

@@ -1,0 +1,93 @@
+<%= render "header" %>
+<section>
+	<div class="container">
+		<h1>Pricing</h1>
+		<p>Polimeter is free, but upgrading to Polimeter Premium gives you additional features.</p>
+
+		<div class="tc">
+			<div class="pricing-option">
+				<div class="pricing-option-header">
+					<span>POLIMETER</span>
+					<h2>BASIC</h2>
+					<p><b>Free</b></p>
+				</div>
+				<div class="pricing-option-body">
+					<ul>
+						<li>Build up to 2 polimeters</li>
+<!--
+						<li>4 promise statuses</li>
+						<li>5 promise categories</li>
+-->
+					</ul>
+				</div>
+			</div>
+
+			<div class="pricing-option">
+				<div class="pricing-option-header">
+					<span>POLIMETER</span>
+					<h2>PREMIUM</h2>
+					<p><b>$9</b> / month</p>
+				</div>
+				<div class="pricing-option-body">
+					<ul>
+						<li>Unlimited number of polimeters</li>
+<!--
+						<li>Up to <b>6</b> promise statuses, with ability to choose your statuses' colours and icons</li>
+						<li>Up to <b>10</b> promise categories</li>
+-->
+						<li>Ability to create <b>private</b> polimeters</li>
+						<li>Ability to add <b>collaborators</b> to your polimeters</li>
+						<li>Ability to track and display <b>activity logs (historical status updates)</b> for each promise</li>
+						<li>Integration with Google Analytics</li>
+						<li>JSON-based API</li>
+					</ul>
+
+					<button
+					  style="background-color:#06c;color:#FFF;padding:8px 12px;border:0;border-radius:4px;font-size:1em;margin-bottom:1em;cursor:pointer"
+					  id="checkout-button-plan_FEd506NcdZWnM3"
+					  role="link"
+					>
+					  Subscribe!
+					</button>
+
+					<div id="error-message"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<%= render "footer" %>
+
+<%= javascript_include_tag "application" %>
+
+<script>
+	var stripe = Stripe('pk_test_V3nbxyS8Ow9QWbMYBN99QsON');
+
+	var checkoutButton = document.getElementById('checkout-button-plan_FEd506NcdZWnM3');
+
+	checkoutButton.addEventListener('click', function () {
+	  // When the customer clicks on the button, redirect
+	  // them to Checkout.
+	  stripe.redirectToCheckout({
+	    items: [{plan: 'plan_FHBjvbOXqw9XHr', quantity: 1}],
+
+	    // Do not rely on the redirect to the successUrl for fulfilling
+	    // purchases, customers may not always reach the success_url after
+	    // a successful payment.
+	    // Instead use one of the strategies described in
+	    // https://stripe.com/docs/payments/checkout/fulfillment
+			customerEmail: '<%=@current_user.email%>',
+	    successUrl: window.location.protocol + '//' + '<%=ENV["HOST"]%>' + '/subscriptions',
+	    cancelUrl: window.location.protocol + '//' + '<%=ENV["HOST"]%>' + '/pricing',
+	  })
+	  .then(function (result) {
+	    if (result.error) {
+	      // If `redirectToCheckout` fails due to a browser or network
+	      // error, display the localized error message to your customer.
+	      var displayError = document.getElementById('error-message');
+	      displayError.textContent = result.error.message;
+	    }
+	  });
+	});
+</script>

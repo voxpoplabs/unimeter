@@ -1,0 +1,16 @@
+<li id="meter-<%= meter.id %>">
+    <span class="user"><%= link_to meter.name, root_url(:subdomain => meter.subdomain), :target => "_blank" %></span>
+  <span class="timestamp">
+    Created <%= time_ago_in_words(meter.created_at) %> ago.
+    <% if current_user?(meter.user) %>
+      <%= link_to "delete", meter, method: :delete,
+                                       data: { confirm: "You sure?" } %>
+      <%= link_to "edit", edit_meter_path(meter) %>
+    
+
+
+      
+      
+      <% end %>
+  </span>
+</li>

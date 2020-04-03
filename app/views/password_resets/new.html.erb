@@ -1,0 +1,13 @@
+<section class="session">
+	<%= form_for(:password_reset, url: password_resets_path) do |f| %>
+		<div class="form-title">Forgot Password</div>
+		<div class="form-subtitle" style="border-bottom:0;text-align:center">It happens even to the best of us.<br>Enter your email address and we'll send you a password reset link.</div>
+		
+		<div class="form-group">
+			<%= f.label :email, class: "form-label" %>
+			<%= f.email_field :email, required: true, class: "form-input" %>
+		</div>
+
+		<%= f.submit "Get your password reset link via email", class: "btn btn-primary" %>
+	<% end %>
+</section>

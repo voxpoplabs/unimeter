@@ -1,0 +1,115 @@
+<% object = "promise" %>
+<% view = request.path.split("/")[-1].capitalize %>
+<% action = view === "New" ? "Create" : "Update" %>
+
+<%= form_for @promise, remote: true do |f| %>
+
+	<%= render "shared/error_messages", object: f.object %>
+
+	<div class="modal-body">
+
+		<% if @promise.persisted? %>
+			<div class="form-group">
+				<label class="form-label">Status</label>
+				<p>The status of this promise is automatically updated to match the status of its most recent article (as determined by the article date).</p>
+			</div>
+		<% end %>
+		
+		<div class="form-group">
+			<%= f.label :description, "Promise", class: "form-label" %>
+			<%= f.text_field :description, required: true, class: "form-input focus", style: "max-width:none" %>
+		</div>
+
+		<div class="columns">
+			<% category_options = [] %>
+			<% [@meter.category1, @meter.category2, @meter.category3, @meter.category4, @meter.category5, @meter.category6, @meter.category7].each_with_index do |i, index| %>
+				<% category_options.push([i, (index + 1)]) unless i.blank? %>
+			<% end %>
+
+			<div class="form-group column col-sm-12">
+				<%= f.label :category, "Category", class: "form-label" %>
+				<%= f.select(:category, options_for_select(category_options, :selected => f.object.category), {:prompt => "-Please select a category-"}, {required: true, class: "form-select"}) %>
+			</div>
+
+			<div class="form-group column col-sm-12">
+				<%= f.label :subcategory, "Subcategory", class: "form-label optional" %>
+				<%= f.text_field :subcategory, class: "form-input" %>
+			</div>
+			
+			<div class="form-group column col-sm-12">
+				<%= f.label :source_date, "Date", class: "form-label", data: {addon: "&#xf073;".html_safe} %>
+				<%= f.text_field :source_date, required: true, class: "form-input datepicker-input", autocomplete: "off", value: @promise.source_date.try(:strftime, "%b %d, %Y") %>
+			</div>
+		</div>
+
+		<div class="columns">
+			<div class="form-group column col-sm-12">
+				<%= f.label :source_link_url, "Source URL", class: "form-label" %>
+				<%= f.text_field :source_link_url, class: "form-input" %>
+			</div>
+
+			<div class="form-group column col-sm-12">
+				<%= f.label :source_link_name, "Source name", class: "form-label" %>
+				<%= f.text_field :source_link_name, class: "form-input" %>
+			</div>
+
+			<div class="form-group column col-sm-12">
+				<%= f.label :source_section, "Source section", class: "form-label optional" %>
+				<%= f.text_field :source_section, class: "form-input" %>
+			</div>
+		</div>
+
+		<% if @meter.bilingual %>
+			<div class="form-subtitle section-title"><%= @meter.b_language %></div>
+			
+			<div class="form-group">
+				<%= f.label :description_b, "Promise", class: "form-label" %>
+				<%= f.text_field :description_b, required: true, class: "form-input", style: "max-width:none" %>
+			</div>
+
+			<div class="columns">
+				<div class="form-group column col-sm-12">
+					<label class="form-label">Category</label>
+					<select disabled id="b_category_autoselection" class="form-select">
+						<option></option>
+						<% [@meter.b_category1, @meter.b_category2, @meter.b_category3, @meter.b_category4, @meter.b_category5, @meter.b_category6, @meter.b_category7].each_with_index do |i, index| %>
+							<option value="<%= index + 1 %>" <%= f.object.category === (index + 1) ? "selected" : ""%>><%= i %></option>
+						<% end %>
+					</select>
+				</div>
+
+				<div class="form-group column col-sm-12">
+					<%= f.label :subcategory_b, "Subcategory", class: "form-label optional" %>
+					<%= f.text_field :subcategory_b, class: "form-input" %>
+				</div>
+
+				<div class="form-group column col-sm-12">
+					<%= f.label :source_date_b, "Date", class: "form-label", data: {addon: "&#xf073;".html_safe} %>
+					<%= f.text_field :source_date_b, required: true, class: "form-input datepicker-input", autocomplete: "off", value: @promise.source_date_b.try(:strftime, "%b %d, %Y") %>
+				</div>
+			</div>
+
+			<div class="columns">
+				<div class="form-group column col-sm-12">
+					<%= f.label :source_link_url_b, "Source URL", class: "form-label" %>
+					<%= f.text_field :source_link_url_b, class: "form-input" %>
+				</div>
+
+				<div class="form-group column col-sm-12">
+					<%= f.label :source_link_name_b, "Source name", class: "form-label" %>
+					<%= f.text_field :source_link_name_b, class: "form-input" %>
+				</div>
+
+				<div class="form-group column col-sm-12">
+					<%= f.label :source_section_b, "Source section", class: "form-label optional" %>
+					<%= f.text_field :source_section_b, class: "form-input" %>
+				</div>
+			</div>
+		<% end %>
+	</div>
+
+	<div class="modal-footer">
+		<a class="btn close-modal">Cancel</a>
+		<%= f.button action + " " + object, class: "btn btn-primary" %>
+	</div>
+<% end %>

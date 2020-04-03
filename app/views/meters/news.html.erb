@@ -1,0 +1,22 @@
+<% provide(:title, " | News") %>
+
+<%= render "header" %>
+
+<main>
+	<section id="blogposts" class="post">
+		<div class="container">
+			<h2><%= @bilingual ? (@meter.b_text_blog.present? ? @meter.b_text_blog : "News") : (@meter.text_blog.present? ? @meter.text_blog : "News") %></h2>
+
+			<% if correct_user?(@meter) %>
+				<div class="tr">
+					<%= link_to "New Post", new_meter_blogpost_path(@meter, @blogpost), remote: true, class: "edit btn btn-primary" %>
+				</div>
+			<% end %>
+			<%= render @blogposts %>
+		</div>
+	</section>
+
+	<%= render "footer" %>
+</main>
+
+<%= render "shared/modal" if logged_in? %>

@@ -1,0 +1,55 @@
+<% date = article.date %>
+<% link_name = article.link_name %>
+<% link_url = article.link_url %>
+<% title = article.title %>
+<% paragraph1 = article.paragraph1 %>
+<% paragraph2 = article.paragraph2 %>
+<% paragraph3 = article.paragraph3 %>
+<% note = article.note %>
+
+<% if @bilingual %>
+	<% date = article.date_b %>
+	<% link_name = article.link_name_b %>
+	<% link_url = article.link_url_b %>
+	<% title = article.title_b %>
+	<% paragraph1 = article.paragraph1_b %>
+	<% paragraph2 = article.paragraph2_b %>
+	<% paragraph3 = article.paragraph3_b %>
+	<% note = article.note_b %>
+<% end %>
+
+<article id="article_<%= article.id %>" class="status<%= article.article_status %>">
+
+	<% if correct_user?(@meter) %>
+		<div class="btn-group">
+			<%= link_to "Edit this article", edit_promise_article_path(@promise, article), remote: true, class: "edit btn btn-sm" %>
+			<%= link_to "<i class='fa fa-trash-o'></i>".html_safe, promise_article_path(@promise, article), remote: true, method: :delete, class: "btn btn-sm", data: {confirm: "Are you sure you want to delete this article? There's no going back!"} %>
+		</div>
+	<% end %>
+
+	<% if date.present? %>
+		<span><%= date.try(:strftime, "%b %Y") %></span>
+	<% end %>
+	
+	<h2><%= title %></h2>
+
+	<p class="clearfix">
+		<% if link_name.present? && link_url.present? %>
+			<span><a href="<%= link_url %>" target="_blank"><%= link_name %></a></span>
+		<% elsif link_name.present? %>
+			<span><%= link_name %></span>
+		<% elsif link_url.present? %>
+			<span><a href="<%= link_url %>" target="_blank"><%= link_url %></a></span>
+		<% end %>
+		
+		<% if date.present? %>
+			<span><%= date.try(:strftime, "%B %d, %Y") %></span>
+		<% end %>
+	</p>
+
+	<p><%= sanitize paragraph1, tags: %w(a b em i strong), attributes: %w(href target) %></p>
+	<p><%= sanitize paragraph2, tags: %w(a b em i strong), attributes: %w(href target) %></p>
+	<p><%= sanitize paragraph3, tags: %w(a b em i strong), attributes: %w(href target) %></p>
+	<p class="note"><%= sanitize note, tags: %w(a b em i strong), attributes: %w(href target) %></p>
+
+</article>

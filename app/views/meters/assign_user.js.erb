@@ -1,0 +1,7 @@
+<% if @message %>
+	alert("User not found. Please enter email of a user registered with polimeter");
+	$("#meter_assignment_email").val("");
+<% else %>
+	$("#meter_members tbody").prepend("<tr><td><%= @assigned_user.email %></td></tr>");
+	$("#meter_assignment_email").val("");
+<% end %>

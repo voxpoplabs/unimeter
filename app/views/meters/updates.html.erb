@@ -1,0 +1,17 @@
+<% provide(:title, " | Updates") %>
+
+<%= render "header" %>
+
+<main>
+	<section id="updates">
+		<div class="container">
+			<% @meter.articles.each do |article| %>
+				<p><%= article.title %></p>
+				<p><%= article.date %></p>
+				<b><%#= article.created_at %></b>
+			<% end %>
+		</div>
+	</section>
+
+	<%= render "footer" %>
+</main>

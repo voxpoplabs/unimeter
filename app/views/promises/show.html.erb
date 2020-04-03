@@ -1,0 +1,140 @@
+<% provide(:title, " | " + @promise.description) unless @bilingual %>
+<% provide(:title, " | " + @promise.description_b) if @bilingual && @promise.description_b.present? %>
+
+<% status_icons = getStatusIcons(@meter, @bilingual) %>
+<% category_icons = getCategoryIcons(@meter, @bilingual) %>
+<% statuses = getStatuses(@meter, @bilingual) %>
+<% categories = getCategories(@meter, @bilingual) %>
+
+<% promise_description = @promise.description %>
+<% promise_subcategory = @promise.subcategory %>
+
+<% source_date = @promise.source_date %>
+<% source_name = @promise.source_link_name %>
+<% source_section = @promise.source_section %>
+<% source_url = @promise.source_link_url %>
+
+<% if @bilingual %>
+	<% promise_description = @promise.description_b %>
+	<% promise_subcategory = @promise.subcategory_b %>
+
+	<% source_date = @promise.source_date_b %>
+	<% source_name = @promise.source_link_name_b %>
+	<% source_section = @promise.source_section_b %>
+	<% source_url = @promise.source_link_url_b %>
+<% end %>
+
+<%= render "meters/header" %>
+
+<main>
+	<section id="promise">
+		<div class="container">
+
+			<% if correct_user?(@meter) %>
+				<div class="btn-group">
+					<%= link_to "Edit this promise", edit_promise_path, remote: true, class: "edit btn btn-sm" %>	
+					<%= link_to "<i class='fa fa-trash-o'></i>".html_safe, promise_path(:meter_id => @promise.meter, :id => @promise), method: :delete, class: "btn btn-sm", data: {confirm: "Are you sure you want to delete this promise? This will delete this promise along with all its articles. There's no going back!"} %>
+				</div>
+			<% end %>
+
+			<div id="promise-category" class="clearfix">
+				<span><i class="fa fa-<%= category_icons[@promise.category] %> fa-fw" style="margin-right:.5em"></i><%= categories[@promise.category] %></span>
+
+				<% if promise_subcategory.present? %>
+					<span style="text-transform:uppercase"><%= promise_subcategory %></span>
+				<% end %>
+			</div>
+
+			<div id="promise-description">
+				<h1><%= promise_description %></h1>
+			</div>
+
+			<div id="promise-source">
+				<% if source_name.present? && source_url.present? %>
+					<span><a href="<%= source_url %>" target="_blank"><%= source_name %></a></span>
+				<% elsif source_name.present? %>
+					<span><%= source_name %></span>
+				<% elsif source_url.present? %>
+					<span><a href="<%= source_url %>" target="_blank"><%= source_url %></a></span>
+				<% end %>
+
+				<% if source_section.present? %>
+					<span><%= source_section %></span>
+				<% end %>
+
+				<% if source_date.present? %>
+					<span><%= source_date.try(:strftime, "%B %e, %Y") %></span>
+				<% end %>
+			</div>
+
+			<% if @promise.logs.count > 0 && @meter.has_logs === true %>
+				<div id="promise-last-updated">
+					<%= link_to promise_logs_path(@promise), remote: true, data: {action: "see-logs"} do %>
+						<i class="fa fa-clock-o"></i>
+						<span>Promise status last updated on <%= @promise.logs.first.created_at.try(:strftime, "%B %d, %Y") %></span>
+						<i class="fa fa-angle-right"></i>
+					<% end %>
+				</div>
+			
+				<div id="promise-logs">
+					<p>Please note these historical updates display when articles associated to this promise were added, removed, or changed. The promise status matches the status of its most recent article, as determined by the article date.</p>
+				</div>
+			<% end %>
+		</div>
+
+		<div id="promise-status" class="status<%= @promise.status %>">
+			<div class="container">
+				<div>
+					<i class="fa <%= status_icons[@promise.status] %>"></i>
+					<span><%= statuses[@promise.status].partition("(")[0] unless statuses[@promise.status].blank? %></span>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section id="articles">
+		<div class="container">
+			<% if correct_user?(@meter) %>
+				<div class="tr">
+					<%= link_to "New Article", new_promise_article_path(@promise, @article), remote: true, class: "edit btn btn-primary" %>
+				</div>
+			<% end %>
+			<div class="articles-container">
+				<%= render @articles, promise: @promise, meter: @meter %>
+			</div>
+		</div>
+	</section>
+
+	<% if @meter.disqus_key.present? %>
+		<section id="comments">
+			<div class="container">
+				<div id="disqus_thread"></div>
+				<script>
+					/* * * CONFIGURATION VARIABLES * * */
+					var disqus_shortname = "<%= @meter.disqus_key %>";
+					<% if @meter.subdomain === "trudeaumetre" %>
+						var disqus_identifier = "<%= @promise.id %>";
+					<% else %>
+						var disqus_identifier = "polimeter_<%= @meter.id %>_<%= @promise.id %>";
+					<% end %>
+
+					/* * * DON'T EDIT BELOW THIS LINE * * */
+					(function () {
+						var dsq = document.createElement("script");
+						dsq.type = "text/javascript";
+						dsq.async = true;
+						dsq.src = "//" + disqus_shortname + ".disqus.com/embed.js";
+						(document.getElementsByTagName("head")[0] || document.getElementsByTagName("body")[0]).appendChild(dsq);
+					})();
+				</script>
+				<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+			</div>
+		</section>
+	<% end %>
+	
+	<%= render "meters/footer" %>
+</main>
+
+<%= render "shared/modal" if logged_in? %>
+
+<%= javascript_include_tag "application" %>

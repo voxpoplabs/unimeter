@@ -1,0 +1,70 @@
+<%= render "main/header" %>
+
+<section class="breadcrumbs">
+	<div class="container">
+		<a class="btn btn-link btn-lg disabled" style="color:inherit;opacity:1">Dashboard</a>
+		<% if current_user.has_role?(:polimeter_premium) %>
+			<%= link_to "Build a new meter", new_meter_path, class: "edit btn btn-primary float-right", style: "margin-top:.4rem" %>
+		<% elsif current_user.meters.count < 2 %>
+			<%= link_to "Build a new meter", new_meter_path, class: "edit btn btn-primary float-right", style: "margin-top:.4rem" %>
+		<% end %>
+	</div>
+</section>
+
+<section class="dashboard">
+	<div class="container">
+		<div id="notice"><%= notice %></div>
+
+		<% if @meters.count > 0 %>
+			<% @meters.each do |meter| %>
+				<% if meter.persisted? %>
+					<div class="meter">
+						<div class="flag-container">
+							<% if meter.province.present? %>
+								<img src="/images/flags-province/<%= meter.province.partition("[").last.sub("]", "") %>.png" class="flag">
+							<% end %>
+							<%= image_tag("/images/flags-country/" + meter.country.partition("[").last.sub("]", "") + ".png", class: "flag") if meter.country %>
+							<span class="block"><%= meter.province.partition("[")[0] + ", " unless meter.province.blank? %><%= meter.country.partition("[")[0] %></span>
+						</div>
+						<h3 class="te"><%= meter.name %></h3>
+						<div>
+							<%= link_to meter.subdomain + ".polimeter.org", root_url(:subdomain => meter.subdomain), target: "_blank", class: "te" %>
+						</div>
+						<div class="clearfix">
+							<div><span><%= meter.individual_name %></span></div>
+							<div><span><b style="font-size:1.25em"><%= meter.promises.count %></b><br>promises</span></div>
+						</div>
+						<div style="padding:1em">
+							<% if 1 === 2 %>
+								<p>Premium Polimeter</p>
+								<p>Your role is: Admin</p>
+							<% else %>
+								<span>Free Polimeter</span>
+							<% end %>
+						</div>
+						<div class="columns">
+							<div class="column">
+								<%= link_to "Go to meter", root_url(:subdomain => meter.subdomain), target: "_blank", class: "btn btn-link" %>
+							</div>
+							<div class="column">
+								<%= link_to "Overview", root_url(:subdomain => meter.subdomain) + "overview", class: "btn btn-link" %>
+							</div>
+							<div class="column">
+								<%= link_to "<i class='fa fa-cog fa-fw'></i> Settings".html_safe, root_url(:subdomain => meter.subdomain) + "edit", class: "btn btn-link" %>
+							</div>
+						</div>
+					</div>
+				<% end %>
+			<% end %>
+		<% else %>
+			<div class="text-center">
+				<h2 style="color:#bbb">Looks pretty empty around here...</h2>
+				<%= link_to "Build a new meter to get started", new_meter_path, class: "edit btn btn-lg btn-primary" %>
+			</div>
+		<% end %>
+	</div>
+</section>
+
+<%= render "footer" %>
+
+<%= javascript_include_tag "application" %>

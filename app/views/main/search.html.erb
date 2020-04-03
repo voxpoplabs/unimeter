@@ -1,0 +1,38 @@
+<%= render "header" %>
+
+<section id="results">
+	<div class="container">
+		<%= form_with url: search_path, local: true, method: :get, html: {id: "search-meters"} do |form| %>
+			<%= form.search_field :q, placeholder: "Search existing polimeters", id: "search-meters-input", class: "form-input" %>
+			<label for="search-meters-input"><i class="fa fa-search"></i></label>
+			<%= form.button "Search" %>
+		<% end %>
+		
+		<h1>Search results</h1>
+		<em class="block"><%= pluralize(@meters.count, "result") %> for "<%= params[:q] %>"</em>
+		
+		<div>
+			<% @meters.each do |meter| %>
+				<div class="result">
+					<ul>
+						<li><%= link_to meter.name, root_url(:subdomain => meter.subdomain) %></li>
+					</ul>
+					<div>
+						<% if meter.country.present? %>
+							<span><%= image_tag("/images/flags-country/" + meter.country.partition("[").last.sub("]", "") + ".png", class: "flag") %> <%= meter.country.partition("[")[0] %></span>
+						<% end %>
+						<% if meter.province.present? %>
+							<span><%= image_tag("/images/flags-province/" + meter.province.partition("[").last.sub("]", "") + ".png", class: "flag") %> <%= meter.province.partition("[")[0] %></span>
+						<% end %>
+						<span><%= meter.individual_name %></span>
+						<i class="block te"><%= sanitize(meter.description, tags:[]) %></i>
+					</div>
+				</div>
+			<% end %>
+		</div>
+	</div>
+</section>
+
+<%= render "footer" %>
+
+<%= javascript_include_tag "home" %>

@@ -1,0 +1,40 @@
+<% provide(:title, " | About") %>
+
+<%= render "header" %>
+
+<main>
+	<section id="about" class="post">
+		<div class="container rel">
+			<h2><%= @bilingual ? (@meter.b_text_about.present? ? @meter.b_text_about : "About") : (@meter.text_about.present? ? @meter.text_about : "About") %></h2>
+
+			<div style="position:absolute;right:0;top:0">
+				<% if @meter.facebook_key.present? %>
+					<a href="<%= @meter.facebook_key.index("https://www.facebook.com/") ? @meter.facebook_key : "https://www.facebook.com/" + @meter.facebook_key %>" target="_blank">
+						<i class="fa fa-facebook fa-fw" style="color:#3c5a99;margin-right:.5em"></i>Visit our Facebook page
+					</a>
+					<br>
+				<% end %>
+				<% if @meter.twitter_key.present? %>
+					<a href="https://twitter.com/<%= @meter.twitter_key.sub("@", "") %>" target="_blank">
+						<i class="fa fa-twitter fa-fw" style="color:#6faedc;margin-right:.5em"></i>See our tweets
+					</a>
+					<br>
+				<% end %>
+				<% if @meter.patreon_key.present? %>
+					<a href="<%= @meter.patreon_key.index("https://www.patreon.com/") ? @meter.patreon_key : "https://www.patreon.com/" + @meter.patreon_key %>" target="_blank">
+						<%= image_tag("patreon-orange.png", style: "margin-right:.5em;padding:0 .2rem;vertical-align:middle;width:1.28em") %>Support us on Patreon
+					</a>
+					<br>
+				<% end %>
+			</div>
+
+			<div class="content">
+				<%= sanitize @bilingual ? @meter.b_about : @meter.about, tags: %w(a b br em i p span strong h3 ul li), attributes: %w(href target) %>
+			</div>
+		</div>
+	</section>
+
+	<%= render "footer" %>
+</main>
+
+<%= javascript_include_tag "application" %>

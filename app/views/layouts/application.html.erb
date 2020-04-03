@@ -1,0 +1,78 @@
+<!--
+   /\_/\
+   >^.^<.---.
+  _'-`-'     )\
+ (6--\ |--\ (`.`-.
+     --'  --'  ``-'
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+
+	<% if @meter %>
+		<% if @meter.subdomain === "trudeaumetre" %>
+			<title><%= (@bilingual ? "TrudeauMètre" : "TrudeauMeter") + yield(:title) %></title>
+			<%= favicon_link_tag "apple-touch-icon-trudeaumetre.png", rel: "apple-touch-icon", sizes: "180x180" %>
+			<%= favicon_link_tag "favicon-32x32-trudeaumetre.png", rel: "icon", sizes: "32x32", type: "image/png" %>
+			<%= favicon_link_tag "favicon-16x16-trudeaumetre.png", rel: "icon", sizes: "16x16", type: "image/png" %>
+			<%= favicon_link_tag "manifest-trudeaumetre.json", rel: "manifest" %>
+			<%= favicon_link_tag "safari-pinned-tab-trudeaumetre.svg", rel: "mask-icon", color: "#ff0000" %>
+		<% elsif @meter.subdomain === "amlometromarino" %>
+			<title><%= "AMLOmetro" + yield(:title) %></title>
+			<%= favicon_link_tag "apple-touch-icon-amlo.png", rel: "apple-touch-icon", sizes: "180x180" %>
+			<%= favicon_link_tag "favicon-32x32-amlo.png", rel: "icon", sizes: "32x32", type: "image/png" %>
+			<%= favicon_link_tag "favicon-16x16-amlo.png", rel: "icon", sizes: "16x16", type: "image/png" %>
+			<%= favicon_link_tag "manifest-amlo.json", rel: "manifest" %>
+			<%= favicon_link_tag "safari-pinned-tab-amlo.svg", rel: "mask-icon", color: "#002299" %>
+			<meta name="apple-mobile-web-app-title" content="AMLOmetro">
+			<meta name="application-name" content="AMLOmetro">
+			<meta name="msapplication-TileColor" content="#ffffff">
+		<% else %>
+			<title><%= @meter.name ? @meter.name + yield(:title) : "Polimeter" %></title>
+			<%= favicon_link_tag "apple-touch-icon.png", rel: "apple-touch-icon", sizes: "152x152" %>
+			<%= favicon_link_tag "favicon-32x32.png", rel: "icon", sizes: "32x32", type: "image/png" %>
+			<%= favicon_link_tag "favicon-16x16.png", rel: "icon", sizes: "16x16", type: "image/png" %>
+			<%= favicon_link_tag "manifest.json", rel: "manifest" %>
+			<%= favicon_link_tag "safari-pinned-tab.svg", rel: "mask-icon", color: "#4169e1" %>
+		<% end %>
+
+    <% if @meter.google_analytics_code.present? %>
+      <script>
+        (function(i,s,o,g,r,a,m){i["GoogleAnalyticsObject"]=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');ga('create', '<%=@meter.google_analytics_code%>', 'auto');ga('send', 'pageview');
+      </script>
+    <% end %>
+	<% else %>
+		<title>Polimeter</title>
+		<%= favicon_link_tag "apple-touch-icon.png", rel: "apple-touch-icon", sizes: "152x152" %>
+		<%= favicon_link_tag "favicon-32x32.png", rel: "icon", sizes: "32x32", type: "image/png" %>
+		<%= favicon_link_tag "favicon-16x16.png", rel: "icon", sizes: "16x16", type: "image/png" %>
+		<%= favicon_link_tag "manifest.json", rel: "manifest" %>
+		<%= favicon_link_tag "safari-pinned-tab.svg", rel: "mask-icon", color: "#4169e1" %>
+	<% end %>
+		<meta name="theme-color" content="#ffffff">
+
+	<%= csrf_meta_tags %>
+
+	<%= stylesheet_link_tag "application", media: "all" %>
+	<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Montserrat:500">
+
+  <script src="https://js.stripe.com/v3"></script>
+
+</head>
+
+<body>
+	<%= ("<pre id='dev'>" + action_name + " " + controller_name + "</pre>").html_safe if Rails.env.development? %>
+	<%= yield %>
+</body>
+
+</html>

@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  primary_category: 
+  secondary_category: 
+  promise_description: 
+  promise_status: MyString
+
+two:
+  primary_category: 
+  secondary_category: 
+  promise_description: 
+  promise_status: MyString
