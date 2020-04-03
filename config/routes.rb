@@ -9,6 +9,7 @@ Rails.application.routes.draw do
 	get "/privacy", to: "main#privacy"
 	get "/support", to: "main#support"
 	get "/terms", to: "main#terms"
+	get "/health_check", to: "health_checks#index"
 
 
 	require "subdomain"
