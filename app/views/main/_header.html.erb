@@ -5,7 +5,7 @@
 			<% if logged_in? %>
 				<%= render "shared/user_menu" %>
 			<% else %>
-				<%= link_to "SIGN UP", signup_path, class: "landing-actions" %>
+				<%#= link_to "SIGN UP", signup_path, class: "landing-actions" %>
 				<%= link_to "LOG IN", login_path, class: "landing-actions" %>
 			<% end %>
 		</nav>

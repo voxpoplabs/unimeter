@@ -5,7 +5,7 @@
 	<div class="container rel">
 		<h1>Polimeter lets you track and share the promises made by your politicians.</h1>
 		<div>
-			<%= link_to "Build your own polimeter", signup_path, class: "btn btn-primary landing-control" %>
+			<%#= link_to "Build your own polimeter", signup_path, class: "btn btn-primary landing-control" %>
 			<%= form_with url: search_path, local: true, method: :get, html: {id: "search-meters"} do |form| %>
 				<%= form.search_field :q, required: true, placeholder: "Search existing polimeters", id: "search-meters-input", class: "form-input landing-control" %>
 				<label for="search-meters-input"><i class="fa fa-search"></i></label>
