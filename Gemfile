@@ -20,7 +20,10 @@ gem 'rolify'
 gem 'cancancan', '~> 2.0'
 gem 'stripe'
 gem 'faker'
-
+gem "interactor", "~> 3.0"
+gem "interactor-rails", "~> 2.0"
+gem 'rubyzip', '>= 1.0.0' # will load new rubyzip version
+gem 'zip-zip' # will load compatibility for old rubyzip API.
 
 group :development, :test do
 	gem 'dotenv-rails'
