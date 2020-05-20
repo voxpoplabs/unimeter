@@ -19,7 +19,7 @@ class MeterImporter::Processors::PromiseFileProcessor
     if promise
       promise.update(row.to_h).inspect
     else
-      promise = context.meter.promises.create(row.to_h)
+      context.meter.promises.create(row.to_h)
     end
   end
 

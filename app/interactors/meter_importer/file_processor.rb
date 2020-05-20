@@ -10,7 +10,7 @@ class MeterImporter::FileProcessor
           # Read into memory
           context.entries << {
             file_name: entry.name,
-            file_contents: entry.get_input_stream.read
+            file_contents: entry.get_input_stream.read.force_encoding("UTF-8").gsub!("\xEF\xBB\xBF".force_encoding("UTF-8"), '')
           }
         end
       end

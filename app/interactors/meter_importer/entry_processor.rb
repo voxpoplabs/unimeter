@@ -10,8 +10,8 @@ class MeterImporter::EntryProcessor
             file_contents: entry_file_obj[:file_contents]
           )
 
-        when "activities.csv"
-          MeterImporter::Processors::ActivityFileProcessor.call(
+        when "articles.csv"
+          MeterImporter::Processors::ArticleFileProcessor.call(
             meter: context.meter,
             file_contents: entry_file_obj[:file_contents]
           )
