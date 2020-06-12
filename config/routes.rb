@@ -27,7 +27,8 @@ Rails.application.routes.draw do
 		get "/edit" => "meters#edit"
 
 		get "/data" => "meters#data"
-	#	Secondary Language Routes
+
+		#	Secondary Language Routes
 		get "/b" => "meters#show"
 		get "/b/promise/:id" => "promises#show", as: :bilingual_promise
 		get "/b/rules" => "meters#rules"

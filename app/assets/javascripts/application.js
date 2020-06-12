@@ -4,6 +4,7 @@
 //= require fileupload.min
 //= require autosize
 //= require datepicker
+//= require bulma-extensions
 
 window.onscroll = function () {
 	if (document.documentElement.scrollTop || document.body.scrollTop) {

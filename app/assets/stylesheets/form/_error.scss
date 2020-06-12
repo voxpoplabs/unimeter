@@ -1,0 +1,59 @@
+.form-input,
+.form-select {
+  .has-success &,
+  &.is-success {
+    border-color: $success-color;
+    &:focus {
+      @include control-shadow($success-color);
+    }
+  }
+  .has-error &,
+  &.is-error {
+    border-color: $error-color;
+    &:focus {
+      @include control-shadow($error-color);
+    }
+  }
+}
+.form-checkbox,
+.form-radio,
+.form-switch {
+  .has-error &,
+  &.is-error {
+    .form-icon {
+      border-color: $error-color;
+    }
+    input {
+      &:checked + .form-icon {
+        background: $error-color;
+        border-color: $error-color;
+      }
+      &:focus + .form-icon {
+        @include control-shadow($error-color);
+        border-color: $error-color;
+      }
+    }
+  }
+}
+.form-checkbox {
+  .has-error &,
+  &.is-error {
+    input {
+      &:indeterminate + .form-icon {
+        background: $error-color;
+        border-color: $error-color;
+      }
+    }
+  }
+}
+
+.form-input-hint {
+  .has-success &,
+  .is-success + & {
+    color: $success-color;
+  }
+  .has-error &,
+  .is-error + & {
+    color: $error-color;
+  }
+}

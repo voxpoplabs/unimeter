@@ -1,4 +1,9 @@
+@import "bulma";
+@import 'bulma-extensions';
+
 @import "base";
+@import "form/index";
+
 @import "datepicker";
 @import "easyautocomplete";
 @import "font-awesome";
@@ -878,7 +883,7 @@ form[action^="/meters"] .unchecked ~ h6 {
 	text-decoration: underline;
 }
 #banner {
-	background-color: rgb(213, 43, 30); //	background-image: repeating-linear-gradient(-45deg, red 20px, green 40px);	
+	background-color: rgb(213, 43, 30); //	background-image: repeating-linear-gradient(-45deg, red 20px, green 40px);
 	color: white;
 	height: 2.5rem;
 	left: 0;

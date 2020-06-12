@@ -80,11 +80,9 @@
 
 					<% statuses.each_with_index do |i, index| x = index + 1 %>
 						<% if !i.blank? %>
-							<p style="margin:1.5rem 0 0"><%= i %></p>
+							<p style="margin:1.5rem 0 0"><%= i %> (<%= @promises.where(:status => x).count %>)</p>
 							<div class="bar">
-								<div class="bar-item status<%= x %>" style="width:<%= @promises.where(:status => x).count.to_f * 100 / @promises.count %>%">
-									<span><%= @promises.where(:status => x).count %></span>
-								</div>
+								<div class="bar-item status<%= x %>" style="width:<%= @promises.where(:status => x).count.to_f * 100 / @promises.count %>%"></div>
 							</div>
 						<% end %>
 					<% end %>
@@ -101,11 +99,9 @@
 
 					<% categories.each_with_index do |i, index| x = index + 1 %>
 						<% if !i.blank? %>
-							<p style="margin:1.5rem 0 0"><%= i %></p>
+							<p style="margin:1.5rem 0 0"><%= i %> (<%= @promises.where(:category => x).count %>)</p>
 							<div class="bar">
-								<div class="bar-item" style="width:<%= @promises.where(:category => x).count.to_f * 100 / @promises.count %>%">
-									<span><%= @promises.where(:category => x).count %></span>
-								</div>
+								<div class="bar-item" style="width:<%= @promises.where(:category => x).count.to_f * 100 / @promises.count %>%"></div>
 							</div>
 						<% end %>
 					<% end %>

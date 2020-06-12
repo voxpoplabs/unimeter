@@ -2,7 +2,6 @@ class MetersController < ApplicationController
 	before_action :find_meter, only: [:show, :data, :about, :news, :rules, :updates, :analytics, :overview, :edit, :update, :destroy, :assign_user]
 	load_and_authorize_resource
 
-
 	before_action :set_s3_direct_post, only: [:new, :edit, :create, :update]
 
 	def show

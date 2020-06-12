@@ -5,7 +5,6 @@ class ApplicationController < ActionController::Base
 	include SessionsHelper
 	include UrlHelper
 
-
 	rescue_from CanCan::AccessDenied do |exception|
 	    respond_to do |format|
 	      format.json { head :forbidden, content_type: 'text/html' }
@@ -25,13 +24,11 @@ class ApplicationController < ActionController::Base
 		end
 	end
 
-
-
 	private
 
 	def find_meter
-	   	@meter = Meter.where(subdomain: request.subdomain).first || Meter.where(domain: request.domain).first
-	    authorize!(:show, @meter)
+   	@meter = Meter.where(subdomain: request.subdomain).first || Meter.where(domain: request.domain).first
+    authorize!(:show, @meter)
 	end
 
 	def bilingual?(path)
@@ -46,7 +43,7 @@ class ApplicationController < ActionController::Base
 	def get_meter
 		#puts "getting meter?" + request.subdomain
 		meters = Meter.where(subdomain: request.subdomain)
-		puts request.subdomain 
+		puts request.subdomain
 		if meters.count > 0
 		puts "got meter"
 		@meter = meters.first

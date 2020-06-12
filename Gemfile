@@ -25,6 +25,10 @@ gem "interactor-rails", "~> 2.0"
 gem 'rubyzip', '>= 1.0.0' # will load new rubyzip version
 gem 'zip-zip' # will load compatibility for old rubyzip API.
 
+# Styles
+gem "bulma-rails", "~> 0.8.2"
+gem 'bulma-extensions-rails'
+
 group :development, :test do
 	gem 'dotenv-rails'
 end
