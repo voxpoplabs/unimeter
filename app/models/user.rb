@@ -1,20 +1,19 @@
 class User < ApplicationRecord
   rolify
+	has_secure_password
+
+	VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
+	attr_accessor :remember_token, :activation_token, :reset_token
+
 	has_many :meters, dependent: :destroy
 	has_many :blogposts, dependent: :destroy
   has_many :subscriptions
-	attr_accessor :remember_token, :activation_token, :reset_token
+
 	before_save :downcase_email
 	before_create :create_activation_digest
 	validates :name, presence: true, length: {maximum: 50}
-	VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
-	validates :email, presence: true, length: { maximum: 255 },
-					format: { with: VALID_EMAIL_REGEX },
-					uniqueness: { case_sensitive: false }
-	has_secure_password
+	validates :email, presence: true, length: { maximum: 255 }, format: { with: VALID_EMAIL_REGEX }, uniqueness: { case_sensitive: false }
 	validates :password, presence:true, length: {minimum:6}, allow_nil:true
-
-
 
 	# Returns the hash digest of the given string.
 	def User.digest(string)
